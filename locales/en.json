@@ -1,0 +1,5 @@
+{
+  "errors": {
+    "API_TIMEOUT_ERROR": "The server is taking too long to respond. Please try again."
+  }
+}
