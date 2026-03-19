@@ -1,7 +1,4 @@
 import type { NextConfig } from "next"
-import createNextIntlPlugin from "next-intl/plugin"
-
-const withNextIntl = createNextIntlPlugin("./lib/i18n/i18n.ts")
 
 const nextConfig: NextConfig = {
   devIndicators: {
@@ -10,6 +7,15 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   reactCompiler: true,
+  cacheComponents: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.public.blob.vercel-storage.com",
+      },
+    ],
+  },
 }
 
-export default withNextIntl(nextConfig)
+export default nextConfig

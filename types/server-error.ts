@@ -8,7 +8,7 @@ export type ServerError = {
 
 export class ApiTimeoutError extends Error {
   constructor() {
-    super()
+    super("Timeout error")
     this.name = ERROR_CODE.API_TIMEOUT_ERROR
   }
 }
