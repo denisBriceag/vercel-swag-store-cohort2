@@ -1,5 +1,12 @@
-import { redirect } from "next/navigation"
+import Hero from "@/components/home/hero"
+import FeaturedProducts from "@/components/home/featured-products"
 
-export default function RootPage() {
-  redirect("/en")
+export default function MainPage() {
+  return (
+    <main>
+      <Hero />
+
+      <FeaturedProducts />
+    </main>
+  )
 }

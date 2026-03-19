@@ -81,7 +81,7 @@ export async function apiClient<T, R = undefined>(
 }
 
 function _buildUrl(path: string, query?: ApiClientOptions["query"]): string {
-  const baseUrl = process.env.NEXT_PUBLIC_VERCEL_SERVER_URL
+  const baseUrl = process.env.SERVER_URL
   const url = new URL(path, baseUrl)
 
   if (query) {
