@@ -1,8 +1,11 @@
 import { ProductSearchQuery } from "@/types/products/product-search-query"
 
-import { DEFAULT_LIMIT, DEFAULT_PAGE } from "@/app/search/constants/constants"
-import { parsePositiveNumber } from "@/app/search/utils/parse-positive-number"
-import { parseBoolean } from "@/app/search/utils/parse-boolean"
+import {
+  DEFAULT_LIMIT,
+  DEFAULT_PAGE,
+} from "@/app/(features)/search/constants/constants"
+import { parsePositiveNumber } from "@/app/(features)/search/utils/parse-positive-number"
+import { parseBoolean } from "@/app/(features)/search/utils/parse-boolean"
 
 export function buildSearchQuery(
   params: Record<string, string | undefined>

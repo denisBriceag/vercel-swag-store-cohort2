@@ -34,8 +34,8 @@ import {
   DEFAULT_PAGE,
   MIN_SEARCH_LENGTH,
   SEARCH_DEBOUNCE_MS,
-} from "@/app/search/constants/constants"
-import { buildUpdatedSearchParams } from "@/app/search/utils/build-updated-search-params"
+} from "@/app/(features)/search/constants/constants"
+import { buildUpdatedSearchParams } from "@/app/(features)/search/utils/build-updated-search-params"
 
 type SearchToolbarProps = {
   categories: Category[]
