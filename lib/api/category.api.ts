@@ -1,9 +1,12 @@
 import { apiClient } from "@/lib/api/client"
-import { SuccessResponse } from "@/types/response"
 import { Category } from "@/types/categories/category"
+import { cacheLife } from "next/cache"
 
-export function getCategories() {
-  return apiClient<SuccessResponse<Category>>({
+export async function getCategories() {
+  "use cache"
+  cacheLife("hours")
+
+  return await apiClient<Category[]>({
     method: "GET",
     path: `categories`,
   })

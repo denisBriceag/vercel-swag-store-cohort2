@@ -1,0 +1,212 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { Search } from "lucide-react"
+import { VisuallyHidden } from "radix-ui"
+
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
+
+import { Category } from "@/types/categories/category"
+import { ProductSearchQuery } from "@/types/products/product-search-query"
+import {
+  DEFAULT_LIMIT,
+  DEFAULT_PAGE,
+  MIN_SEARCH_LENGTH,
+  SEARCH_DEBOUNCE_MS,
+} from "@/app/search/constants/constants"
+import { buildUpdatedSearchParams } from "@/app/search/utils/build-updated-search-params"
+
+type SearchToolbarProps = {
+  categories: Category[]
+  initialQuery: ProductSearchQuery
+}
+
+export default function SearchToolbar({
+  initialQuery,
+  categories,
+}: SearchToolbarProps) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  const [searchValue, setSearchValue] = useState(initialQuery.search ?? "")
+
+  const categoryValue = initialQuery.category ?? "all"
+  const featuredValue = Boolean(initialQuery.featured)
+
+  function navigateWithParams(updates: Partial<ProductSearchQuery>) {
+    const params = buildUpdatedSearchParams(searchParams, updates)
+
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+  }
+
+  useEffect(() => {
+    const setSearchedParams = () => {
+      setSearchValue(initialQuery.search ?? "")
+    }
+
+    setSearchedParams()
+  }, [initialQuery.search])
+
+  useEffect(() => {
+    const trimmed = searchValue.trim()
+
+    const timeoutId = setTimeout(() => {
+      if (trimmed.length >= MIN_SEARCH_LENGTH) {
+        navigateWithParams({
+          page: DEFAULT_PAGE,
+          limit: initialQuery.limit ?? DEFAULT_LIMIT,
+          search: trimmed,
+        })
+        return
+      }
+
+      if (trimmed.length === 0 && initialQuery.search) {
+        navigateWithParams({
+          page: DEFAULT_PAGE,
+          limit: initialQuery.limit ?? DEFAULT_LIMIT,
+          search: undefined,
+        })
+      }
+    }, SEARCH_DEBOUNCE_MS)
+
+    return () => clearTimeout(timeoutId)
+  }, [searchValue, initialQuery.search, initialQuery.limit])
+
+  function handleCategoryChange(value: string) {
+    navigateWithParams({
+      page: DEFAULT_PAGE,
+      limit: initialQuery.limit ?? DEFAULT_LIMIT,
+      category: value as ProductSearchQuery["category"],
+    })
+  }
+
+  function handleFeaturedChange(checked: boolean) {
+    navigateWithParams({
+      page: DEFAULT_PAGE,
+      limit: initialQuery.limit ?? DEFAULT_LIMIT,
+      featured: checked ? true : undefined,
+    })
+  }
+
+  function handleManualSearch() {
+    const trimmed = searchValue.trim()
+
+    navigateWithParams({
+      page: DEFAULT_PAGE,
+      limit: initialQuery.limit ?? DEFAULT_LIMIT,
+      search: trimmed.length >= MIN_SEARCH_LENGTH ? trimmed : undefined,
+    })
+  }
+
+  return (
+    <search className="p-6">
+      <form
+        className="w-full"
+        onSubmit={(event) => {
+          event.preventDefault()
+          handleManualSearch()
+        }}
+      >
+        <FieldGroup className="flex-col items-stretch gap-4 md:flex-row md:items-center md:justify-end">
+          <Field orientation="horizontal" className="w-fit">
+            <Checkbox
+              id="featured-products"
+              checked={featuredValue}
+              onCheckedChange={handleFeaturedChange}
+            />
+            <Label htmlFor="featured-products">Featured products</Label>
+          </Field>
+
+          <Field className="w-full md:w-fit">
+            <Select value={categoryValue} onValueChange={handleCategoryChange}>
+              <SelectTrigger className="w-full md:max-w-56">
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="all">All categories</SelectItem>
+
+                  {categories.map((category) => (
+                    <SelectItem
+                      key={category.slug}
+                      value={category.slug}
+                      disabled={!category.productCount}
+                    >
+                      {category.slug}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+            {!categories.length && (
+              <FieldDescription>
+                Categories are not available at the moment.
+              </FieldDescription>
+            )}
+          </Field>
+
+          <Field className="w-full md:w-fit">
+            <VisuallyHidden.VisuallyHidden>
+              <FieldLabel htmlFor="search-input">
+                Search for products
+              </FieldLabel>
+            </VisuallyHidden.VisuallyHidden>
+
+            <InputGroup className="w-full md:min-w-96">
+              <InputGroupInput
+                id="search-input"
+                placeholder="Search products..."
+                value={searchValue}
+                onChange={(event) => setSearchValue(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    event.preventDefault()
+                    handleManualSearch()
+                  }
+                }}
+              />
+
+              <InputGroupAddon
+                role="button"
+                aria-label="Search"
+                align="inline-end"
+                onClick={handleManualSearch}
+              >
+                <Search className="size-4" />
+              </InputGroupAddon>
+            </InputGroup>
+
+            <FieldDescription>
+              Type {MIN_SEARCH_LENGTH}+ characters to search automatically, or
+              press Enter.
+            </FieldDescription>
+          </Field>
+        </FieldGroup>
+      </form>
+    </search>
+  )
+}

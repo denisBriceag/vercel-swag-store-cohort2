@@ -32,7 +32,7 @@ export default function Hero() {
           </p>
 
           <Link
-            href="/products"
+            href="/search"
             className="mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-background transition-opacity hover:opacity-90 dark:bg-primary-foreground"
           >
             Browse All Products

@@ -1,9 +1,8 @@
 import { apiClient } from "@/lib/api/client"
-import { SuccessResponse } from "@/types/response"
 import { StoreConfig } from "@/types/store/store-config"
 
-export function getCart() {
-  return apiClient<SuccessResponse<StoreConfig>>({
+export function getAppConfig() {
+  return apiClient<StoreConfig>({
     method: "GET",
     path: `store/config`,
   })

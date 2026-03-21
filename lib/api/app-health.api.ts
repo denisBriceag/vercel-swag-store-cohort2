@@ -1,11 +1,10 @@
 import { apiClient } from "@/lib/api/client"
-import { SuccessResponse } from "@/types/response"
 import { AppHealth } from "@/types/health"
 import { ApiHttpError } from "@/types/server-error"
 import { ERROR_CODE } from "@/types/error-code"
 
 export async function checkHealth() {
-  const response = await apiClient<SuccessResponse<AppHealth>>({
+  const response = await apiClient<AppHealth>({
     method: "GET",
     path: "health",
   })
