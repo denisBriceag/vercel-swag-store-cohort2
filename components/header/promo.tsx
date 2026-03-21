@@ -24,7 +24,7 @@ function PromoMessage({
 }
 
 /**
- * @description We cache promo as promos are usually last from 1 week till 1 month. So it's quite safe to cache it at least for 1 month.
+ * @description We cache promo as promos are usually last from 1 week till 1 month. So it's quite safe to cache it at least for 1 week.
  * Alternatively we could receive validUntil flag from server and calculate time until validUntil timestamp.
  * The limitation though is that server returns timestamps from the last year (2025).
  * */

@@ -1,8 +1,8 @@
 import { Suspense } from "react"
 
-import SearchToolbarLoader from "@/app/search/components/search-toolbar-loader"
-import SearchResults from "@/app/search/components/search-results"
-import SearchResultsSkeleton from "@/app/search/components/search-results-skeleton"
+import SearchToolbarLoader from "@/app/(features)/search/components/search-toolbar-loader"
+import SearchResults from "@/app/(features)/search/components/search-results"
+import SearchResultsSkeleton from "@/app/(features)/search/components/search-results-skeleton"
 
 type SearchPageProps = {
   searchParams: Promise<Record<string, string | undefined>>

@@ -1,4 +1,4 @@
-import { DEFAULT_LIMIT } from "@/app/search/constants/constants"
+import { DEFAULT_LIMIT } from "@/app/(features)/search/constants/constants"
 import ProductsSkeleton from "@/components/products/product-skeleton"
 
 export default function SearchResultsSkeleton() {
