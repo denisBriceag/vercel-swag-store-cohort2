@@ -1,4 +1,10 @@
-import { ApiResponse, errorGuard, ErrorResponse } from "@/types/response"
+import {
+  ApiResponse,
+  errorGuard,
+  ErrorResponse,
+  SuccessResponse,
+  SuccessResponseMeta,
+} from "@/types/response"
 import {
   ApiHttpError,
   ApiTimeoutError,
@@ -27,7 +33,7 @@ export type ApiClientOptions<R = undefined> = {
  * */
 export async function apiClient<T, R = undefined>(
   options: ApiClientOptions<R>
-): Promise<T> {
+): Promise<SuccessResponse<T> | SuccessResponseMeta<T>> {
   const headers: Record<string, string> = {
     ...options.headers,
   }
@@ -77,7 +83,7 @@ export async function apiClient<T, R = undefined>(
     throw result.error
   }
 
-  return result.data
+  return result
 }
 
 function _buildUrl(path: string, query?: ApiClientOptions["query"]): string {

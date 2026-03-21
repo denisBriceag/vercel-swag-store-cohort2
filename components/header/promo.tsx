@@ -24,7 +24,7 @@ function PromoMessage({
 }
 
 /**
- * @description We cache promo as promos are usually last from 1 week till 1 month. So it's quite safe cu cache it at least for 1 month.
+ * @description We cache promo as promos are usually last from 1 week till 1 month. So it's quite safe to cache it at least for 1 month.
  * Alternatively we could receive validUntil flag from server and calculate time until validUntil timestamp.
  * The limitation though is that server returns timestamps from the last year (2025).
  * */
@@ -32,9 +32,9 @@ export default async function Promo() {
   "use cache"
   cacheLife({ revalidate: 60 * 60 * 24 * 7 })
 
-  const promo = await getPromotion()
+  const { data } = await getPromotion()
 
-  if (!promo.active) return null
+  if (!data.active) return null
 
   return (
     <aside className="flex h-10 w-full cursor-pointer items-center overflow-hidden bg-primary px-6 text-secondary dark:bg-foreground">
@@ -42,25 +42,25 @@ export default async function Promo() {
         <div className="inline-flex min-w-max animate-marquee items-center whitespace-nowrap">
           <PromoMessage
             className="mr-12"
-            code={promo.code}
-            title={promo.title}
-            description={promo.description}
+            code={data.code}
+            title={data.title}
+            description={data.description}
           />
 
           <PromoMessage
             className="mr-12"
-            code={promo.code}
-            title={promo.title}
-            description={promo.description}
+            code={data.code}
+            title={data.title}
+            description={data.description}
           />
         </div>
       </div>
 
       <div className="hidden w-full items-center justify-center md:flex">
         <PromoMessage
-          code={promo.code}
-          title={promo.title}
-          description={promo.description}
+          code={data.code}
+          title={data.title}
+          description={data.description}
         />
       </div>
     </aside>

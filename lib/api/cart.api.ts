@@ -12,7 +12,7 @@ async function cartHeaders(): Promise<Record<string, string>> {
   return token ? { "x-cart-token": token } : {}
 }
 
-export async function getCart(): Promise<CartWithProducts> {
+export async function getCart() {
   return apiClient<CartWithProducts>({
     method: "GET",
     path: `/cart`,
@@ -20,21 +20,18 @@ export async function getCart(): Promise<CartWithProducts> {
   })
 }
 
-export async function createCart(): Promise<CartWithProducts> {
+export async function createCart() {
   const cart = await apiClient<CartWithProducts>({
     method: "POST",
     path: `/cart/create`,
   })
 
-  await setCartToken(cart.token)
+  await setCartToken(cart.data.token)
 
   return cart
 }
 
-export async function addToCart(
-  productId: string,
-  quantity: number
-): Promise<CartWithProducts> {
+export async function addToCart(productId: string, quantity: number) {
   return apiClient<CartWithProducts, UpdateCart>({
     method: "POST",
     path: `/cart`,
@@ -46,10 +43,7 @@ export async function addToCart(
   })
 }
 
-export async function updateQuantity(
-  productId: string,
-  quantity: number
-): Promise<CartWithProducts> {
+export async function updateQuantity(productId: string, quantity: number) {
   return apiClient<CartWithProducts, Omit<UpdateCart, "productId">>({
     method: "PATCH",
     path: `/cart/${productId}`,
@@ -60,9 +54,7 @@ export async function updateQuantity(
   })
 }
 
-export async function removeFromCart(
-  productId: string
-): Promise<CartWithProducts> {
+export async function removeFromCart(productId: string) {
   return apiClient<CartWithProducts>({
     method: "DELETE",
     path: `/cart/${productId}`,

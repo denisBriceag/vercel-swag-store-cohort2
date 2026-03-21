@@ -24,7 +24,7 @@ export default async function FeaturedProducts() {
             Featured products
           </h2>
 
-          <Link href="/">
+          <Link href="/search?featured=true">
             <span className="text-muted-foreground hover:cursor-pointer hover:text-primary">
               View all
             </span>
@@ -32,7 +32,7 @@ export default async function FeaturedProducts() {
         </div>
 
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          {products.map(({ id, images, name, price, slug }) => (
+          {products.data.map(({ id, images, name, price, slug }) => (
             <ProductItem
               key={id}
               slug={slug}
