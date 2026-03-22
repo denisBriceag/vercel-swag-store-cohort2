@@ -1,8 +1,8 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useTransition } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { Search } from "lucide-react"
+import { Loader2, Search } from "lucide-react"
 import { VisuallyHidden } from "radix-ui"
 
 import {
@@ -29,13 +29,14 @@ import { Label } from "@/components/ui/label"
 
 import { Category } from "@/types/categories/category"
 import { ProductSearchQuery } from "@/types/products/product-search-query"
+
 import {
   DEFAULT_LIMIT,
   DEFAULT_PAGE,
   MIN_SEARCH_LENGTH,
   SEARCH_DEBOUNCE_MS,
-} from "@/app/(features)/search/constants/constants"
-import { buildUpdatedSearchParams } from "@/app/(features)/search/utils/build-updated-search-params"
+} from "../constants/constants"
+import { buildUpdatedSearchParams } from "../utils/build-updated-search-params"
 
 type SearchToolbarProps = {
   categories: Category[]
@@ -49,6 +50,7 @@ export default function SearchToolbar({
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const [isPending, startTransition] = useTransition()
 
   const [searchValue, setSearchValue] = useState(initialQuery.search ?? "")
 
@@ -58,7 +60,9 @@ export default function SearchToolbar({
   function navigateWithParams(updates: Partial<ProductSearchQuery>) {
     const params = buildUpdatedSearchParams(searchParams, updates)
 
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+    startTransition(() => {
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+    })
   }
 
   useEffect(() => {
@@ -194,16 +198,16 @@ export default function SearchToolbar({
                 role="button"
                 aria-label="Search"
                 align="inline-end"
+                className="cursor-pointer"
                 onClick={handleManualSearch}
               >
-                <Search className="size-4" />
+                {isPending ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <Search className="size-4" />
+                )}
               </InputGroupAddon>
             </InputGroup>
-
-            <FieldDescription>
-              Type {MIN_SEARCH_LENGTH}+ characters to search automatically, or
-              press Enter.
-            </FieldDescription>
           </Field>
         </FieldGroup>
       </form>

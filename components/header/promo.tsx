@@ -1,8 +1,10 @@
+import * as React from "react"
+import Link from "next/link"
+import { cacheLife } from "next/cache"
+
 import { getPromotion } from "@/lib/api/promotion.api"
 import { Promotion } from "@/types/promotions/promotion"
-import * as React from "react"
 import { cn } from "@/utils/utils"
-import { cacheLife } from "next/cache"
 
 function PromoMessage({
   title,
@@ -16,7 +18,10 @@ function PromoMessage({
       {title} - {description}{" "}
       {code !== "AUTO" && (
         <span>
-          Code: <strong className="underline">{code}</strong>
+          Code:{" "}
+          <Link href="https://nextjs.org/" target="_blank">
+            <strong className="cursor-pointer underline">{code}</strong>
+          </Link>
         </span>
       )}
     </span>
@@ -37,7 +42,7 @@ export default async function Promo() {
   if (!data.active) return null
 
   return (
-    <aside className="flex h-10 w-full cursor-pointer items-center overflow-hidden bg-primary px-6 text-secondary dark:bg-foreground">
+    <aside className="flex h-10 w-full items-center overflow-hidden bg-primary px-6 text-secondary dark:bg-foreground">
       <div className="block w-full overflow-hidden whitespace-nowrap md:hidden">
         <div className="inline-flex min-w-max animate-marquee items-center whitespace-nowrap">
           <PromoMessage

@@ -9,11 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { buildUpdatedSearchParams } from "@/app/(features)/search/utils/build-updated-search-params"
-import {
-  DEFAULT_PAGE,
-  PAGE_SIZE_OPTIONS,
-} from "@/app/(features)/search/constants/constants"
+
+import { buildUpdatedSearchParams } from "../utils/build-updated-search-params"
+import { DEFAULT_PAGE, PAGE_SIZE_OPTIONS } from "../constants/constants"
 
 type PaginationLimitSelectProps = {
   currentLimit: number

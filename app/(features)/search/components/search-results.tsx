@@ -1,11 +1,12 @@
 import { PackageSearch } from "lucide-react"
 
 import { getProducts } from "@/lib/api/products.api"
-import { buildSearchQuery } from "@/app/(features)/search/utils/build-search-query"
 import { SuccessResponseMeta } from "@/types/response"
 import { Product } from "@/types/products/product"
 import ProductItem from "@/components/products/product-item"
-import SearchPagination from "@/app/(features)/search/components/search-pagination"
+
+import { buildSearchQuery } from "../utils/build-search-query"
+import SearchPagination from "./search-pagination"
 
 type SearchResultsProps = {
   searchParams: Promise<Record<string, string | undefined>>

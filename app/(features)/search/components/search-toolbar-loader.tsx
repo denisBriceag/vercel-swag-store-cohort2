@@ -1,6 +1,8 @@
 import { getCategories } from "@/lib/api/category.api"
-import { buildSearchQuery } from "@/app/(features)/search/utils/build-search-query"
-import SearchToolbar from "@/app/(features)/search/components/search-toolbar"
+
+import SearchToolbar from "../components/search-toolbar"
+
+import { buildSearchQuery } from "../utils/build-search-query"
 
 type SearchToolbarLoaderProps = {
   searchParams: Promise<Record<string, string | undefined>>
