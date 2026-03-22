@@ -1,5 +1,8 @@
-import { Button } from "@/components/ui/button"
-import { House, Menu, Search, X } from "lucide-react"
+import Link from "next/link"
+import { House, Menu, MoveRight, Search, X } from "lucide-react"
+import { VisuallyHidden } from "radix-ui"
+import { JSX } from "react"
+
 import {
   Drawer,
   DrawerContent,
@@ -8,31 +11,19 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
-import { VisuallyHidden } from "radix-ui"
-import { JSX } from "react"
-import { cn } from "@/utils/utils"
-import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import Logo from "@/components/header/logo"
 
-type MobileMenuItemProps = {
-  icon?: JSX.Element
+type NavItem = {
+  href: string
   label: string
-  className?: string
+  icon: JSX.Element
 }
 
-function MobileMenuItem({ icon, label, className }: MobileMenuItemProps) {
-  return (
-    <li
-      className={cn(
-        "flex h-10.5 cursor-pointer items-center justify-between gap-2.5 rounded-lg px-3 py-2.5 text-sm transition-colors duration-100 outline-none hover:bg-muted focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 [a]:transition-colors",
-        className
-      )}
-    >
-      <span>{label}</span>
-
-      {icon}
-    </li>
-  )
-}
+const NAV_ITEMS: NavItem[] = [
+  { href: "/", label: "Home", icon: <House className="size-4" /> },
+  { href: "/search", label: "Search", icon: <Search className="size-4" /> },
+]
 
 export default function MobileMenu() {
   return (
@@ -43,36 +34,51 @@ export default function MobileMenu() {
         </Button>
       </DrawerTrigger>
 
-      <DrawerContent aria-describedby="mobile-menu-content">
-        <DrawerHeader className="flex items-end justify-end">
-          <VisuallyHidden.Root>
-            <DrawerTitle>Store menu</DrawerTitle>
+      <DrawerContent>
+        <VisuallyHidden.Root>
+          <DrawerTitle>Store menu</DrawerTitle>
+          <DrawerDescription>
+            Mobile representation of store menu
+          </DrawerDescription>
+        </VisuallyHidden.Root>
 
-            <DrawerDescription>
-              Mobile representation of store menu
-            </DrawerDescription>
-          </VisuallyHidden.Root>
+        <DrawerHeader className="flex flex-row items-center justify-between border-b border-border px-4 py-3">
+          <Link href="/">
+            <Logo />
+          </Link>
 
           <DrawerTrigger asChild>
             <Button variant="ghost" size="icon" aria-label="Close menu">
-              <X />
+              <X className="size-4" />
             </Button>
           </DrawerTrigger>
         </DrawerHeader>
 
-        <ul id="mobile-menu-content" className="w-full list-none pr-6 pl-4">
-          <DrawerTrigger asChild>
-            <Link href="/">
-              <MobileMenuItem label="Home" icon={<House />} />
-            </Link>
-          </DrawerTrigger>
+        <div className="flex flex-col gap-1 px-3 py-4">
+          <p className="px-3 pb-1 text-xs font-medium tracking-widest text-muted-foreground uppercase">
+            Navigation
+          </p>
 
-          <DrawerTrigger asChild>
-            <Link href="/search">
-              <MobileMenuItem label="Search" icon={<Search />} />
-            </Link>
-          </DrawerTrigger>
-        </ul>
+          <ul className="flex flex-col">
+            {NAV_ITEMS.map(({ href, label, icon }) => (
+              <li key={href}>
+                <DrawerTrigger asChild>
+                  <Link
+                    href={href}
+                    className="flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                  >
+                    <span className="flex items-center gap-3">
+                      <span className="text-muted-foreground">{icon}</span>
+                      {label}
+                    </span>
+
+                    <MoveRight className="size-3.5 text-muted-foreground" />
+                  </Link>
+                </DrawerTrigger>
+              </li>
+            ))}
+          </ul>
+        </div>
       </DrawerContent>
     </Drawer>
   )

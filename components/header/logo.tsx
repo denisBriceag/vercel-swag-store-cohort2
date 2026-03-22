@@ -1,5 +1,5 @@
 /**
- * @description We don't use next Image here because svg is already well optimized.
+ * @description We don't use next/Image here because SVG is already well optimized.
  * */
 export default function Logo() {
   return (

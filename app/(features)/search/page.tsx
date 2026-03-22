@@ -1,8 +1,9 @@
 import { Suspense } from "react"
 
-import SearchToolbarLoader from "@/app/(features)/search/components/search-toolbar-loader"
-import SearchResults from "@/app/(features)/search/components/search-results"
-import SearchResultsSkeleton from "@/app/(features)/search/components/search-results-skeleton"
+import SearchToolbarLoader from "./components/search-toolbar-loader"
+import SearchToolbarSkeleton from "./components/search-toolbar-skeleton"
+import SearchResults from "./components/search-results"
+import SearchResultsSkeleton from "./components/search-results-skeleton"
 
 type SearchPageProps = {
   searchParams: Promise<Record<string, string | undefined>>
@@ -11,7 +12,7 @@ type SearchPageProps = {
 export default function SearchPage({ searchParams }: SearchPageProps) {
   return (
     <main className="mt-(--header-height)">
-      <Suspense>
+      <Suspense fallback={<SearchToolbarSkeleton />}>
         <SearchToolbarLoader searchParams={searchParams} />
       </Suspense>
 
