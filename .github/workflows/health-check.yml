@@ -11,4 +11,5 @@ jobs:
       - name: Check health
         run: |
           curl --fail --silent --show-error \
+            -H "x-vercel-protection-bypass: ${{ secrets.VERCEL_BYPASS_TOKEN }}" \
             ${{ github.event.deployment_status.target_url }}/api/health

@@ -67,7 +67,10 @@ export async function Footer() {
         </div>
 
         <div className="flex flex-col gap-3 border-t border-border pt-6 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
-          <p>© {new Date().getFullYear()} {config?.storeName ?? "SwagStore"}. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} {config?.storeName ?? "SwagStore"}. All
+            rights reserved.
+          </p>
 
           {config?.socialLinks && (
             <div className="flex gap-4">

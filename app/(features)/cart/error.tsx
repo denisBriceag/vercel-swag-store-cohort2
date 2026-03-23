@@ -7,13 +7,11 @@ import { Button } from "@/components/ui/button"
 export default function CartError() {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 p-6 text-center">
-      <p className="text-sm font-medium uppercase tracking-widest text-muted-foreground">
+      <p className="text-sm font-medium tracking-widest text-muted-foreground uppercase">
         Something went wrong
       </p>
 
-      <h1 className="text-3xl font-bold tracking-tight">
-        Failed to load cart
-      </h1>
+      <h1 className="text-3xl font-bold tracking-tight">Failed to load cart</h1>
 
       <p className="max-w-sm text-sm text-muted-foreground">
         We couldn&apos;t load your cart. Please try again later.
