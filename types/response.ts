@@ -1,7 +1,7 @@
 import { Metadata } from "./metadata"
 import { ServerError } from "./server-error"
 
-interface BaseResponse {
+export interface BaseResponse {
   success: boolean
 }
 

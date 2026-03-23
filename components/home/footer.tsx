@@ -1,16 +1,26 @@
 import Link from "next/link"
+import { cacheLife } from "next/cache"
+
+import { getAppConfig } from "@/lib/api/app-configuration.api"
 
 const companyMenu = ["About", "Contact", "FAQ"]
 const legalMenu = ["Privacy", "Terms", "Shipping & Returns"]
 
-export function Footer() {
+export async function Footer() {
+  "use cache"
+  cacheLife("weeks")
+
+  const res = await getAppConfig()
+
+  const config = res.success ? res.data : null
+
   return (
     <footer className="border-t border-border bg-background text-foreground">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-8 py-10 md:px-12 lg:px-16">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-start">
           <div className="max-w-sm">
             <Link href="/" className="text-sm font-semibold tracking-tight">
-              SwagStore
+              {config?.storeName ?? "SwagStore"}
             </Link>
 
             <p className="mt-3 text-sm leading-6 text-muted-foreground">
@@ -57,15 +67,38 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col gap-3 border-t border-border pt-6 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
-          <p>© 2026 SwagStore. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {config?.storeName ?? "SwagStore"}. All rights reserved.</p>
 
-          <Link
-            href="https://github.com/denisBriceag/vercel-swag-store-cohort2"
-            target="_blank"
-            className="transition-colors hover:text-foreground"
-          >
-            GitHub
-          </Link>
+          {config?.socialLinks && (
+            <div className="flex gap-4">
+              <Link
+                href={config.socialLinks.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-foreground"
+              >
+                Twitter
+              </Link>
+
+              <Link
+                href={config.socialLinks.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-foreground"
+              >
+                GitHub
+              </Link>
+
+              <Link
+                href={config.socialLinks.discord}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-foreground"
+              >
+                Discord
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </footer>

@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
-import { Minus, Plus, ShoppingCart } from "lucide-react"
+import { useState, useTransition } from "react"
+import { useRouter } from "next/navigation"
+import { Loader2, Minus, Plus, ShoppingCart } from "lucide-react"
 
 import { StockInfo } from "@/types/stock/stock-info"
 import { Button } from "@/components/ui/button"
@@ -11,16 +12,24 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { addToCartAction } from "@/app/(features)/cart/actions"
 
 type ProductActionsProps = {
+  productId: string
   stockInfo: StockInfo | null
 }
 
-export default function ProductActions({ stockInfo }: ProductActionsProps) {
+export default function ProductActions({
+  productId,
+  stockInfo,
+}: ProductActionsProps) {
   const canBuy = stockInfo !== null && stockInfo.inStock && stockInfo.stock > 0
   const maxQty = stockInfo?.stock ?? 1
 
+  const router = useRouter()
+
   const [quantity, setQuantity] = useState(1)
+  const [isPending, startTransition] = useTransition()
 
   function increment() {
     setQuantity((q) => Math.min(q + 1, maxQty))
@@ -28,6 +37,16 @@ export default function ProductActions({ stockInfo }: ProductActionsProps) {
 
   function decrement() {
     setQuantity((q) => Math.max(q - 1, 1))
+  }
+
+  function handleAddToCart() {
+    startTransition(async () => {
+      const result = await addToCartAction(productId, quantity)
+
+      if (result.success) {
+        router.refresh()
+      }
+    })
   }
 
   return (
@@ -42,7 +61,7 @@ export default function ProductActions({ stockInfo }: ProductActionsProps) {
               size="icon"
               className="size-8"
               onClick={decrement}
-              disabled={quantity <= 1}
+              disabled={isPending || quantity <= 1}
               aria-label="Decrease quantity"
             >
               <Minus className="size-3" />
@@ -57,7 +76,7 @@ export default function ProductActions({ stockInfo }: ProductActionsProps) {
               size="icon"
               className="size-8"
               onClick={increment}
-              disabled={quantity >= maxQty}
+              disabled={isPending || quantity >= maxQty}
               aria-label="Increase quantity"
             >
               <Plus className="size-3" />
@@ -74,9 +93,18 @@ export default function ProductActions({ stockInfo }: ProductActionsProps) {
         <Tooltip>
           <TooltipTrigger asChild>
             <span className="w-full sm:w-fit" tabIndex={!canBuy ? 0 : -1}>
-              <Button className="w-full gap-2 sm:w-auto" disabled={!canBuy}>
-                <ShoppingCart className="size-4" />
-                Add to Cart
+              <Button
+                className="w-full gap-2 sm:w-auto"
+                disabled={!canBuy || isPending}
+                onClick={handleAddToCart}
+              >
+                {isPending ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <ShoppingCart className="size-4" />
+                )}
+
+                {isPending ? "Adding..." : "Add to Cart"}
               </Button>
             </span>
           </TooltipTrigger>

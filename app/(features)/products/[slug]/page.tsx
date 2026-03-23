@@ -1,10 +1,14 @@
 import { Suspense } from "react"
 import { notFound } from "next/navigation"
+import { Metadata } from "next"
 import Image from "next/image"
 import { Package } from "lucide-react"
 
 import { getProductById } from "@/lib/api/products.api"
+
 import { ApiHttpError } from "@/types/server-error"
+import { ERROR_CODE } from "@/types/error-code"
+
 import { pricePipe } from "@/utils/price"
 
 import ProductStockSkeleton from "./components/product-stock-skeleton"
@@ -12,6 +16,32 @@ import ProductStock from "./components/product-stock"
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>
+}
+
+export async function generateMetadata({
+  params,
+}: ProductPageProps): Promise<Metadata> {
+  const { slug } = await params
+
+  const res = await getProductById(slug)
+
+  if (!res.success) return {}
+
+  const { name, description, images } = res.data
+
+  return {
+    title: name,
+    description,
+    openGraph: {
+      title: name,
+      description,
+      url: `/products/${slug}`,
+      type: "website",
+      ...(images[0] && {
+        images: [{ url: images[0], alt: name }],
+      }),
+    },
+  }
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
@@ -26,15 +56,16 @@ export default async function ProductPage({ params }: ProductPageProps) {
   } catch (error) {
     if (
       error instanceof ApiHttpError &&
-      error.serverError.code === "NOT_FOUND"
+      error.serverError.code === ERROR_CODE.NOT_FOUND
     ) {
       notFound()
     }
+
     throw error
   }
 
   return (
-    <main className="mt-(--header-height) min-h-screen">
+    <>
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-muted">
@@ -92,6 +123,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
         </div>
       </div>
-    </main>
+    </>
   )
 }

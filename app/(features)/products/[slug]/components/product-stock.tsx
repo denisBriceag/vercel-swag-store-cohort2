@@ -12,18 +12,16 @@ export default async function ProductStock({
 }: ProductStockSectionProps) {
   let stockInfo = null
 
-  try {
-    const res = await getProductStock(productId)
+  const res = await getProductStock(productId)
 
-    stockInfo = res.data
-  } catch {}
+  if (res.success) stockInfo = res.data
 
   return (
     <>
       <StockBadge stockInfo={stockInfo} />
 
       <div className="border-t border-border pt-6">
-        <ProductActions stockInfo={stockInfo} />
+        <ProductActions productId={productId} stockInfo={stockInfo} />
       </div>
     </>
   )

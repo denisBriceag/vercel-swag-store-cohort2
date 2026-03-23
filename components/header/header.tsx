@@ -1,8 +1,13 @@
+import { Suspense } from "react"
+import Link from "next/link"
+import { ShoppingCart } from "lucide-react"
+
 import Navigation from "@/components/header/navigation"
 import Logo from "@/components/header/logo"
 import Promo from "@/components/header/promo"
 import MobileMenu from "@/components/header/mobile-menu"
-import Link from "next/link"
+import CartCount from "@/components/header/cart-count"
+import { Button } from "@/components/ui/button"
 
 export default function Header() {
   return (
@@ -17,6 +22,24 @@ export default function Header() {
 
           <Navigation />
         </div>
+
+        <Button
+          variant="ghost"
+          size="icon"
+          className="relative"
+          aria-label="Shopping cart"
+          asChild
+        >
+          <Link href="/cart">
+            <ShoppingCart className="size-5" />
+
+            <span className="absolute -top-0.5 -right-0.5">
+              <Suspense fallback={null}>
+                <CartCount />
+              </Suspense>
+            </span>
+          </Link>
+        </Button>
       </div>
 
       <Promo />
