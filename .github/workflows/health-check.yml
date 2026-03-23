@@ -1,0 +1,14 @@
+name: Health Check
+
+on:
+  deployment_status:
+
+jobs:
+  health-check:
+    if: github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check health
+        run: |
+          curl --fail --silent --show-error \
+            ${{ github.event.deployment_status.target_url }}/api/health
