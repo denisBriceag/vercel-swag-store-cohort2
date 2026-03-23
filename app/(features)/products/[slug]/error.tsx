@@ -4,12 +4,7 @@ import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
 
-export default function ProductError({
-  reset,
-}: {
-  error: Error & { digest?: string }
-  reset: () => void
-}) {
+export default function ProductError() {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 p-6 text-center">
       <p className="text-sm font-medium tracking-widest text-muted-foreground uppercase">
@@ -25,11 +20,7 @@ export default function ProductError({
         products.
       </p>
 
-      <div className="mt-2 flex gap-3">
-        <Button variant="outline" onClick={reset}>
-          Try again
-        </Button>
-
+      <div className="mt-2">
         <Button asChild>
           <Link href="/products">Browse products</Link>
         </Button>

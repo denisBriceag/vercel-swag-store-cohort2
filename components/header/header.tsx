@@ -20,7 +20,9 @@ export default function Header() {
             <Logo />
           </Link>
 
-          <Navigation />
+          <Suspense fallback={null}>
+            <Navigation />
+          </Suspense>
         </div>
 
         <Button
