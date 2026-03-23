@@ -2,7 +2,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { pricePipe } from "@/utils/price"
 import { Product } from "@/types/products/product"
-import { Button } from "@/components/ui/button"
 
 type ProductPreviewProps = Pick<Product, "name" | "images" | "price" | "slug">
 
@@ -49,7 +48,7 @@ export default function ProductItem({
           )}
         </div>
 
-        <div className="flex flex-col gap-3 px-4 py-2">
+        <div className="px-4 py-2">
           <div className="flex items-center justify-between gap-2">
             <span className="truncate text-sm font-medium text-foreground">
               {name}
@@ -59,8 +58,6 @@ export default function ProductItem({
               {formattedPrice}
             </span>
           </div>
-
-          <Button className="gap-2 px-4 py-3">Add to cart</Button>
         </div>
       </div>
     </Link>

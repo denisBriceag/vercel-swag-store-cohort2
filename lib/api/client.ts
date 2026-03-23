@@ -12,9 +12,6 @@ import {
 } from "@/types/server-error"
 import { ERROR_CODE } from "@/types/error-code"
 
-/**
- * 10 secs
- * */
 const DEFAULT_TIMEOUT_MS = 10000
 
 export type ApiClientOptions<R = undefined> = {
@@ -24,19 +21,12 @@ export type ApiClientOptions<R = undefined> = {
   headers?: Record<string, string>
   query?: Record<string, string | number | boolean | undefined>
   timeout?: number
-  signal?: AbortSignal
 }
 
-/**
- * @description This function is a main http client for this app.
- * Automatically passes x-vercel-protection-bypass header
- * */
 export async function apiClient<T, R = undefined>(
   options: ApiClientOptions<R>
 ): Promise<SuccessResponse<T> | SuccessResponseMeta<T>> {
-  const headers: Record<string, string> = {
-    ...options.headers,
-  }
+  const headers: Record<string, string> = { ...options.headers }
 
   if (options.body !== undefined) {
     headers["Content-Type"] = "application/json"
@@ -48,29 +38,29 @@ export async function apiClient<T, R = undefined>(
     headers["x-vercel-protection-bypass"] = bypassToken
   }
 
-  const timeoutMs = options.timeout ?? DEFAULT_TIMEOUT_MS
-  const timeoutController = timeoutMs > 0 ? new AbortController() : null
-  const timeoutId =
-    timeoutController && setTimeout(() => timeoutController.abort(), timeoutMs)
+  const controller = new AbortController()
+  const timeoutId = setTimeout(
+    () => controller.abort(),
 
-  const signal = _mergeSignals(options.signal, timeoutController?.signal)
+    options.timeout ?? DEFAULT_TIMEOUT_MS
+  )
 
   let response: Response
+
   try {
     response = await fetch(_buildUrl(options.path, options.query), {
       method: options.method,
       headers,
       body:
         options.body !== undefined ? JSON.stringify(options.body) : undefined,
-      signal,
+      signal: controller.signal,
     })
   } catch (error) {
-    if (timeoutController?.signal.aborted) {
-      throw new ApiTimeoutError()
-    }
+    if (controller.signal.aborted) throw new ApiTimeoutError()
+
     throw error
   } finally {
-    if (timeoutId) clearTimeout(timeoutId)
+    clearTimeout(timeoutId)
   }
 
   if (!response.ok) {
@@ -87,8 +77,7 @@ export async function apiClient<T, R = undefined>(
 }
 
 function _buildUrl(path: string, query?: ApiClientOptions["query"]): string {
-  const baseUrl = process.env.SERVER_URL
-  const url = new URL(path, baseUrl)
+  const url = new URL(path, process.env.SERVER_URL)
 
   if (query) {
     for (const [key, value] of Object.entries(query)) {
@@ -101,32 +90,6 @@ function _buildUrl(path: string, query?: ApiClientOptions["query"]): string {
   return url.toString()
 }
 
-function _mergeSignals(
-  ...signals: (AbortSignal | undefined)[]
-): AbortSignal | undefined {
-  const defined = signals.filter(Boolean) as AbortSignal[]
-
-  if (defined.length === 0) return undefined
-  if (defined.length === 1) return defined[0]
-
-  const controller = new AbortController()
-
-  for (const sig of defined) {
-    if (sig.aborted) {
-      controller.abort(sig.reason)
-
-      return controller.signal
-    }
-
-    sig.addEventListener("abort", () => controller.abort(sig.reason), {
-      once: true,
-      signal: controller.signal,
-    })
-  }
-
-  return controller.signal
-}
-
 async function _parseErrorResponse(response: Response): Promise<never> {
   let parsedError: ErrorResponse | null = null
   let rawText = ""
@@ -134,9 +97,7 @@ async function _parseErrorResponse(response: Response): Promise<never> {
   try {
     rawText = await response.text()
 
-    if (rawText) {
-      parsedError = JSON.parse(rawText) as ErrorResponse
-    }
+    if (rawText) parsedError = JSON.parse(rawText) as ErrorResponse
   } catch {}
 
   const serverError: ServerError = parsedError?.error ?? {

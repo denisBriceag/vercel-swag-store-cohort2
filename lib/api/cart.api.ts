@@ -9,13 +9,14 @@ import { UpdateCart } from "@/types/cart/update-cart"
 
 async function cartHeaders(): Promise<Record<string, string>> {
   const token = await getCartToken()
+
   return token ? { "x-cart-token": token } : {}
 }
 
 export async function getCart() {
   return apiClient<CartWithProducts>({
     method: "GET",
-    path: `/cart`,
+    path: `cart`,
     headers: await cartHeaders(),
   })
 }
@@ -23,7 +24,7 @@ export async function getCart() {
 export async function createCart() {
   const cart = await apiClient<CartWithProducts>({
     method: "POST",
-    path: `/cart/create`,
+    path: `cart/create`,
   })
 
   await setCartToken(cart.data.token)
@@ -34,7 +35,7 @@ export async function createCart() {
 export async function addToCart(productId: string, quantity: number) {
   return apiClient<CartWithProducts, UpdateCart>({
     method: "POST",
-    path: `/cart`,
+    path: `cart`,
     headers: await cartHeaders(),
     body: {
       productId,
@@ -46,7 +47,7 @@ export async function addToCart(productId: string, quantity: number) {
 export async function updateQuantity(productId: string, quantity: number) {
   return apiClient<CartWithProducts, Omit<UpdateCart, "productId">>({
     method: "PATCH",
-    path: `/cart/${productId}`,
+    path: `cart/${productId}`,
     headers: await cartHeaders(),
     body: {
       quantity,
@@ -57,7 +58,7 @@ export async function updateQuantity(productId: string, quantity: number) {
 export async function removeFromCart(productId: string) {
   return apiClient<CartWithProducts>({
     method: "DELETE",
-    path: `/cart/${productId}`,
+    path: `cart/${productId}`,
     headers: await cartHeaders(),
   })
 }
