@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import { Metadata } from "next"
 
 import { getCart } from "@/lib/api/cart.api"
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
   robots: { index: false },
 }
 
-export default async function CartPage() {
+async function CartPageContent() {
   const token = await getCartToken()
 
   if (!token) {
@@ -73,5 +74,13 @@ export default async function CartPage() {
         </div>
       )}
     </div>
+  )
+}
+
+export default function CartPage() {
+  return (
+    <Suspense>
+      <CartPageContent />
+    </Suspense>
   )
 }
