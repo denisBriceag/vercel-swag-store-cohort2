@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 export default function SearchError() {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 p-6 text-center">
-      <p className="text-sm font-medium uppercase tracking-widest text-muted-foreground">
+      <p className="text-sm font-medium tracking-widest text-muted-foreground uppercase">
         Something went wrong
       </p>
 

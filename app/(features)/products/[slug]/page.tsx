@@ -44,9 +44,7 @@ export async function generateMetadata({
   }
 }
 
-async function ProductPageContent({
-  params,
-}: ProductPageProps) {
+async function ProductPageContent({ params }: ProductPageProps) {
   const { slug } = await params
 
   let product

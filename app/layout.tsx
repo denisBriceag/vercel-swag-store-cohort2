@@ -7,6 +7,9 @@ import Header from "@/components/header/header"
 import { Footer } from "@/components/home/footer"
 import { getAppConfig } from "@/lib/api/app-configuration.api"
 
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
+
 const fontSans = Geist({
   weight: ["400", "500", "600"],
   subsets: ["latin"],
@@ -43,10 +46,11 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${fontSans.variable} antialiased`}>
       <body>
         <Header />
-
         <main className="mt-(--header-height) min-h-screen">{children}</main>
-
         <Footer />
+
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

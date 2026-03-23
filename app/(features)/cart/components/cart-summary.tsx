@@ -20,9 +20,10 @@ export default function CartSummary({ cart }: CartSummaryProps) {
       <div className="flex flex-col gap-3 border-b border-border pb-4 text-sm">
         <div className="flex items-center justify-between gap-4">
           <span className="text-muted-foreground">
-            Subtotal ({cart.totalItems} {cart.totalItems === 1 ? "item" : "items"})
+            Subtotal ({cart.totalItems}{" "}
+            {cart.totalItems === 1 ? "item" : "items"})
           </span>
-          <span className="tabular-nums text-foreground">{subtotal}</span>
+          <span className="text-foreground tabular-nums">{subtotal}</span>
         </div>
 
         <div className="flex items-center justify-between gap-4">
@@ -33,7 +34,7 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 
       <div className="flex items-center justify-between gap-4 pt-4 text-sm">
         <span className="font-medium text-foreground">Total</span>
-        <span className="font-semibold tabular-nums text-foreground">
+        <span className="font-semibold text-foreground tabular-nums">
           {subtotal}
         </span>
       </div>
