@@ -6,21 +6,19 @@ import SearchToolbarSkeleton from "./components/search-toolbar-skeleton"
 import SearchResults from "./components/search-results"
 import SearchResultsSkeleton from "./components/search-results-skeleton"
 
-type SearchPageProps = {
-  searchParams: Promise<Record<string, string | undefined>>
-}
+import { SearchPageProps } from "./types/search-params-props"
 
 export async function generateMetadata({
   searchParams,
 }: SearchPageProps): Promise<Metadata> {
-  const { q } = await searchParams
-  const title = q ? `Search results for "${q}"` : "Search"
+  const { search } = await searchParams
+  const title = search ? `Search results for "${search}"` : "Search"
 
   return {
     title,
     openGraph: {
       title,
-      url: q ? `/search?q=${encodeURIComponent(q)}` : "/search",
+      url: search ? `/search?search=${encodeURIComponent(search)}` : "/search",
     },
   }
 }

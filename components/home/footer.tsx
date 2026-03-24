@@ -3,8 +3,17 @@ import { cacheLife } from "next/cache"
 
 import { getAppConfig } from "@/lib/api/app-configuration.api"
 
-const companyMenu = ["About", "Contact", "FAQ"]
-const legalMenu = ["Privacy", "Terms", "Shipping & Returns"]
+const companyMenu = [
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+  { label: "FAQ", href: "/faq" },
+]
+
+const legalMenu = [
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+  { label: "Shipping & Returns", href: "/shipping-returns" },
+]
 
 export async function Footer() {
   "use cache"
@@ -34,13 +43,13 @@ export async function Footer() {
               <p className="font-medium text-foreground">Company</p>
 
               <ul className="space-y-2 text-muted-foreground">
-                {companyMenu.map((item, i) => (
-                  <li key={i}>
+                {companyMenu.map(({ label, href }) => (
+                  <li key={href}>
                     <Link
-                      href="/about"
+                      href={href}
                       className="transition-colors hover:text-foreground"
                     >
-                      {item}
+                      {label}
                     </Link>
                   </li>
                 ))}
@@ -51,13 +60,13 @@ export async function Footer() {
               <p className="font-medium text-foreground">Legal</p>
 
               <ul className="space-y-2 text-muted-foreground">
-                {legalMenu.map((item, i) => (
-                  <li key={i}>
+                {legalMenu.map(({ label, href }) => (
+                  <li key={href}>
                     <Link
-                      href="/privacy"
+                      href={href}
                       className="transition-colors hover:text-foreground"
                     >
-                      {item}
+                      {label}
                     </Link>
                   </li>
                 ))}

@@ -21,5 +21,6 @@ export class ApiHttpError extends Error {
     super(serverError.message)
 
     this.name = serverError.code
+    this.status = status
   }
 }

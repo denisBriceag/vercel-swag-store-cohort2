@@ -1,20 +1,18 @@
 import { PackageSearch } from "lucide-react"
 
 import { getProducts } from "@/lib/api/products.api"
+
 import { SuccessResponseMeta } from "@/types/response"
+
 import { Product } from "@/types/products/product"
 import ProductItem from "@/components/products/product-item"
 
 import { buildSearchQuery } from "../utils/build-search-query"
+import { SearchPageProps } from "../types/search-params-props"
+
 import SearchPagination from "./search-pagination"
 
-type SearchResultsProps = {
-  searchParams: Promise<Record<string, string | undefined>>
-}
-
-export default async function SearchResults({
-  searchParams,
-}: SearchResultsProps) {
+export default async function SearchResults({ searchParams }: SearchPageProps) {
   const params = await searchParams
   const query = buildSearchQuery(params)
 
