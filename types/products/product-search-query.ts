@@ -7,3 +7,8 @@ export type ProductSearchQuery = Partial<{
   search: string
   featured: boolean
 }>
+
+export type ProductSearchQueryStringified = Record<
+  keyof ProductSearchQuery,
+  string
+>

@@ -3,14 +3,11 @@ import { getCategories } from "@/lib/api/category.api"
 import SearchToolbar from "../components/search-toolbar"
 
 import { buildSearchQuery } from "../utils/build-search-query"
-
-type SearchToolbarLoaderProps = {
-  searchParams: Promise<Record<string, string | undefined>>
-}
+import { SearchPageProps } from "../types/search-params-props"
 
 export default async function SearchToolbarLoader({
   searchParams,
-}: SearchToolbarLoaderProps) {
+}: SearchPageProps) {
   const [params, categories] = await Promise.all([
     searchParams,
     getCategories(),

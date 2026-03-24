@@ -1,4 +1,7 @@
-import { ProductSearchQuery } from "@/types/products/product-search-query"
+import {
+  ProductSearchQuery,
+  ProductSearchQueryStringified,
+} from "@/types/products/product-search-query"
 
 import { DEFAULT_LIMIT, DEFAULT_PAGE } from "../constants/constants"
 
@@ -6,7 +9,7 @@ import { parsePositiveNumber } from "./parse-positive-number"
 import { parseBoolean } from "./parse-boolean"
 
 export function buildSearchQuery(
-  params: Record<string, string | undefined>
+  params: ProductSearchQueryStringified
 ): ProductSearchQuery {
   return {
     page: parsePositiveNumber(params.page, DEFAULT_PAGE),
