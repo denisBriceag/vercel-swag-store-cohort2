@@ -1,4 +1,4 @@
-import { apiClient } from "@/lib/api/client"
+import { apiClient } from "@/lib/data/client"
 import { Promotion } from "@/types/promotions/promotion"
 
 export function getPromotion() {

@@ -1,4 +1,4 @@
-import { getCart } from "@/lib/api/cart.api"
+import { getCart } from "@/lib/data/cart.api"
 import { getCartToken } from "@/lib/cart/cart-token"
 
 export default async function CartCount() {

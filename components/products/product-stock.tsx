@@ -1,4 +1,4 @@
-import { getProductStock } from "@/lib/api/products.api"
+import { getProductStock } from "@/lib/data/products.api"
 
 import StockBadge from "./stock-badge"
 import ProductActions from "./product-actions"

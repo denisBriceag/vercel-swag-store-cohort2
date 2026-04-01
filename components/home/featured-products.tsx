@@ -1,4 +1,4 @@
-import { getProducts } from "@/lib/api/products.api"
+import { getProducts } from "@/lib/data/products.api"
 import ProductItem from "@/components/products/product-item"
 import Link from "next/link"
 import { cacheLife, cacheTag } from "next/cache"
@@ -6,7 +6,7 @@ import { CACHE_TAGS } from "@/constants/app-constants"
 
 /**
  * @description Featured products - timings controlled via FEATURED_PRODUCTS_* env vars.
- * Revalidate: POST /api/revalidate/products
+ * Revalidate: POST /data/revalidate/products
  */
 export default async function FeaturedProducts() {
   "use cache"

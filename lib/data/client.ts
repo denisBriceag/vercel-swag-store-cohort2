@@ -72,7 +72,7 @@ export async function apiClient<T, R = undefined>(
 }
 
 /**
- * @description A helper function to build a full api request url with query search parms if present
+ * @description A helper function to build a full data request url with query search parms if present
  * */
 function _buildUrl(path: string, query?: ApiClientOptions["query"]): string {
   const url = new URL(path, process.env.SERVER_URL)

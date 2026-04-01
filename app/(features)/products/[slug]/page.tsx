@@ -4,7 +4,7 @@ import { Metadata } from "next"
 import Image from "next/image"
 import { Package } from "lucide-react"
 
-import { getProductDetails, getProducts } from "@/lib/api/products.api"
+import { getProductDetails, getProducts } from "@/lib/data/products.api"
 
 import { ApiHttpError } from "@/types/server-error"
 import { ERROR_CODE } from "@/types/error-code"

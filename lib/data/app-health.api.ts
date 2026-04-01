@@ -1,4 +1,4 @@
-import { apiClient } from "@/lib/api/client"
+import { apiClient } from "@/lib/data/client"
 import { AppHealth } from "@/types/health"
 import { ApiHttpError } from "@/types/server-error"
 import { ERROR_CODE } from "@/types/error-code"

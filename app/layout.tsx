@@ -5,7 +5,7 @@ import "../styles/globals.css"
 
 import Header from "@/components/header/header"
 import { Footer } from "@/components/home/footer"
-import { getAppConfig } from "@/lib/api/app-configuration.api"
+import { getAppConfig } from "@/lib/data/app-configuration.api"
 
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"

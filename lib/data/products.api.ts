@@ -1,4 +1,4 @@
-import { apiClient } from "@/lib/api/client"
+import { apiClient } from "@/lib/data/client"
 import { Product } from "@/types/products/product"
 import { ProductSearchQuery } from "@/types/products/product-search-query"
 import { StockInfo } from "@/types/stock/stock-info"

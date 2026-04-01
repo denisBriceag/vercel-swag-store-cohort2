@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { cacheLife } from "next/cache"
 
-import { getAppConfig } from "@/lib/api/app-configuration.api"
+import { getAppConfig } from "@/lib/data/app-configuration.api"
 
 const companyMenu = [
   { label: "About", href: "/about" },

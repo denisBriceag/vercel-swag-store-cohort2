@@ -7,7 +7,7 @@ import {
   createCart,
   removeFromCart,
   updateQuantity,
-} from "@/lib/api/cart.api"
+} from "@/lib/data/cart.api"
 import { getCartToken } from "@/lib/cart/cart-token"
 import { BaseResponse } from "@/types/response"
 

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-import { checkHealth } from "@/lib/api/app-health.api"
+import { checkHealth } from "@/lib/data/app-health.api"
 
 export async function GET() {
   try {

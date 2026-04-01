@@ -1,4 +1,4 @@
-import { getCategories } from "@/lib/api/category.api"
+import { getCategories } from "@/lib/data/category.api"
 
 import SearchToolbar from "./search-toolbar"
 

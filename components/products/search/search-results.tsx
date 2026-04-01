@@ -1,6 +1,6 @@
 import { PackageSearch } from "lucide-react"
 
-import { getProducts } from "@/lib/api/products.api"
+import { getProducts } from "@/lib/data/products.api"
 
 import { SuccessResponseMeta } from "@/types/response"
 
