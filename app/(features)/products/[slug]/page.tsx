@@ -4,18 +4,28 @@ import { Metadata } from "next"
 import Image from "next/image"
 import { Package } from "lucide-react"
 
-import { getProductById } from "@/lib/api/products.api"
+import { getProductDetails, getProducts } from "@/lib/api/products.api"
 
 import { ApiHttpError } from "@/types/server-error"
 import { ERROR_CODE } from "@/types/error-code"
 
 import { pricePipe } from "@/utils/price"
 
-import ProductStockSkeleton from "./components/product-stock-skeleton"
-import ProductStock from "./components/product-stock"
+import ProductStock from "@/components/products/product-stock"
+import ProductStockSkeleton from "@/components/products/product-stock-skeleton"
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>
+}
+
+export async function generateStaticParams() {
+  const response = await getProducts()
+
+  if (!response.success) return []
+
+  return response.data.map(({ slug }) => ({
+    slug,
+  }))
 }
 
 export async function generateMetadata({
@@ -23,7 +33,7 @@ export async function generateMetadata({
 }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params
 
-  const res = await getProductById(slug)
+  const res = await getProductDetails(slug)
 
   if (!res.success) return {}
 
@@ -44,13 +54,13 @@ export async function generateMetadata({
   }
 }
 
-async function ProductPageContent({ params }: ProductPageProps) {
+export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params
 
   let product
 
   try {
-    const response = await getProductById(slug)
+    const response = await getProductDetails(slug)
     product = response.data
   } catch (error) {
     if (
@@ -121,13 +131,5 @@ async function ProductPageContent({ params }: ProductPageProps) {
         </div>
       </div>
     </div>
-  )
-}
-
-export default function ProductPage({ params }: ProductPageProps) {
-  return (
-    <Suspense>
-      <ProductPageContent params={params} />
-    </Suspense>
   )
 }

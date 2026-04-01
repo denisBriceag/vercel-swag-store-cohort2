@@ -20,7 +20,6 @@ export type ApiClientOptions<R = undefined> = {
   body?: R
   headers?: Record<string, string>
   query?: Record<string, string | number | boolean | undefined>
-  timeout?: number
 }
 
 export async function apiClient<T, R = undefined>(
@@ -39,11 +38,7 @@ export async function apiClient<T, R = undefined>(
   }
 
   const controller = new AbortController()
-  const timeoutId = setTimeout(
-    () => controller.abort(),
-
-    options.timeout ?? DEFAULT_TIMEOUT_MS
-  )
+  const timeoutId = setTimeout(() => controller.abort(), DEFAULT_TIMEOUT_MS)
 
   let response: Response
 
@@ -76,6 +71,9 @@ export async function apiClient<T, R = undefined>(
   return result
 }
 
+/**
+ * @description A helper function to build a full api request url with query search parms if present
+ * */
 function _buildUrl(path: string, query?: ApiClientOptions["query"]): string {
   const url = new URL(path, process.env.SERVER_URL)
 

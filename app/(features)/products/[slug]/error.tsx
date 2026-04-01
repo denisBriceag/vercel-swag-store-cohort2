@@ -1,30 +1,17 @@
 "use client"
 
-import Link from "next/link"
-
-import { Button } from "@/components/ui/button"
+import EmptyState from "@/components/ui/empty-state"
 
 export default function ProductError() {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 p-6 text-center">
-      <p className="text-sm font-medium tracking-widest text-muted-foreground uppercase">
-        Something went wrong
-      </p>
-
-      <h1 className="text-3xl font-bold tracking-tight">
-        Failed to load product
-      </h1>
-
-      <p className="max-w-sm text-sm text-muted-foreground">
-        We couldn&#39;t load this product. Please try again or browse other
-        products.
-      </p>
-
-      <div className="mt-2">
-        <Button asChild>
-          <Link href="/products">Browse products</Link>
-        </Button>
-      </div>
+      <EmptyState
+        title="Something went wrong. Failed to load product"
+        description="We couldn&#39;t load this product. Please try again or browse other
+        products."
+        actionHref="/search"
+        actionLabel="Browse products."
+      />
     </div>
   )
 }

@@ -1,7 +1,7 @@
-import { Suspense } from "react"
 import { notFound } from "next/navigation"
 import { Metadata } from "next"
-import { cacheLife } from "next/cache"
+import { cacheLife, cacheTag } from "next/cache"
+import { CACHE_TAGS } from "@/constants/app-constants"
 
 const PAGES = {
   about: "About",
@@ -33,9 +33,14 @@ export async function generateMetadata({
   }
 }
 
-async function PageContent({ params }: PageProps) {
+export function generateStaticParams(): { slug: string }[] {
+  return Object.keys(PAGES).map((slug) => ({ slug }))
+}
+
+export default async function Page({ params }: PageProps) {
   "use cache"
-  cacheLife("max")
+  cacheLife(CACHE_TAGS.PAGES)
+  cacheTag(CACHE_TAGS.PAGES)
 
   const { slug } = await params
   const title = PAGES[slug]
@@ -44,10 +49,9 @@ async function PageContent({ params }: PageProps) {
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold tracking-tight text-foreground">
+      <h1 className="text-2xl font-bold tracking-tight text-foreground">
         {title}
       </h1>
-
       <div className="mt-8 space-y-4 text-sm leading-7 text-muted-foreground">
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
@@ -71,13 +75,5 @@ async function PageContent({ params }: PageProps) {
         </p>
       </div>
     </article>
-  )
-}
-
-export default function Page({ params }: PageProps) {
-  return (
-    <Suspense>
-      <PageContent params={params} />
-    </Suspense>
   )
 }

@@ -46,10 +46,13 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${fontSans.variable} antialiased`}>
       <body>
         <Header />
+
         <main className="mt-(--header-height) min-h-screen">{children}</main>
+
         <Footer />
 
         <Analytics />
+
         <SpeedInsights />
       </body>
     </html>

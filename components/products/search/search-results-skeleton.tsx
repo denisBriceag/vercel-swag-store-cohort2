@@ -1,6 +1,5 @@
 import ProductsSkeleton from "@/components/products/product-item-skeleton"
-
-import { DEFAULT_LIMIT } from "../constants/constants"
+import { DEFAULT_LIMIT } from "@/constants/search-constants"
 
 export default function SearchResultsSkeleton() {
   return (

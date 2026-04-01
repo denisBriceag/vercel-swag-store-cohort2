@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react"
 
 export default function Hero() {
   return (
-    <section className="relative mt-(--header-height) overflow-hidden bg-background text-foreground">
+    <section className="relative mt-(--header-height) min-h-125 overflow-hidden bg-background text-foreground">
       <div className="absolute inset-0">
         <Image
           src="/hero-image.jpg"
@@ -20,7 +20,7 @@ export default function Hero() {
 
       <div className="absolute inset-y-0 left-0 w-full backdrop-blur-[2px] md:w-2/3" />
 
-      <div className="relative z-1 mx-auto flex min-h-69 w-full max-w-7xl items-center px-8 py-12 md:px-12 lg:px-16">
+      <div className="relative z-1 mx-auto flex min-h-125 w-full max-w-7xl items-center px-8 py-12 md:px-12 lg:px-16">
         <div className="max-w-130">
           <h1 className="text-4xl leading-none font-black text-foreground sm:text-5xl">
             Wear the framework you ship with.

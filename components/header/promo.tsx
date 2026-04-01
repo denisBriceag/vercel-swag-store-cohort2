@@ -1,10 +1,11 @@
 import * as React from "react"
 import Link from "next/link"
-import { cacheLife } from "next/cache"
+import { cacheLife, cacheTag } from "next/cache"
 
 import { getPromotion } from "@/lib/api/promotion.api"
 import { Promotion } from "@/types/promotions/promotion"
 import { cn } from "@/utils/utils"
+import { CACHE_TAGS } from "@/constants/app-constants"
 
 function PromoMessage({
   title,
@@ -35,7 +36,8 @@ function PromoMessage({
  * */
 export default async function Promo() {
   "use cache"
-  cacheLife({ revalidate: 60 * 60 * 24 * 7 })
+  cacheLife(CACHE_TAGS.PROMO)
+  cacheTag(CACHE_TAGS.PROMO)
 
   const { data } = await getPromotion()
 

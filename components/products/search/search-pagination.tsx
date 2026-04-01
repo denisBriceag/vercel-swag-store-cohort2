@@ -12,8 +12,9 @@ import { Label } from "@/components/ui/label"
 import { ProductSearchQuery } from "@/types/products/product-search-query"
 import { Pagination as PaginationMeta } from "@/types/pagination"
 
-import { DEFAULT_LIMIT } from "../constants/constants"
 import PaginationLimitSelect from "./pagination-limit-select"
+
+import { DEFAULT_LIMIT } from "@/constants/search-constants"
 
 type SearchPaginationProps = {
   query: ProductSearchQuery

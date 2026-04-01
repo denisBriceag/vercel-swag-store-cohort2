@@ -1,21 +1,20 @@
-# Next.js template
+# Vercel Swag Store
 
-This is a Next.js template with shadcn/ui.
+This is a Next.js application submitted for Cohort 2 of the Vercel Solution Partner Certification Program.
 
-## Adding components
+## How to start the project
 
-To add components to your app, run the following command:
+To start the project locally you will need node version 24.x.x and pnpm package manager with a version indicated in package.json file.
 
+If you are using nvm, you can try to run:
 ```bash
-npx shadcn@latest add button
+nvm use
 ```
+and install it via nvm if you prefer.
 
-This will place the ui components in the `components` directory.
+Otherwise, just install the node version indicated in .nvmrc file, or use any node 24.x.x if you have one already preinstalled.
 
-## Using components
-
-To use the components in your app, import them as follows:
-
-```tsx
-import { Button } from "@/components/ui/button";
+After installing/configuring the right node version, just run the following command to start the project locally:
+```bash
+pnpm dev
 ```

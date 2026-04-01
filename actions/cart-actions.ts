@@ -9,7 +9,6 @@ import {
   updateQuantity,
 } from "@/lib/api/cart.api"
 import { getCartToken } from "@/lib/cart/cart-token"
-import { setCartCount, clearCartCount } from "@/lib/cart/cart-count"
 import { BaseResponse } from "@/types/response"
 
 type ActionType = BaseResponse & { error?: string }
@@ -25,9 +24,7 @@ export async function addToCartAction(
       await createCart()
     }
 
-    const cart = await addToCart(productId, quantity)
-
-    await setCartCount(cart.data.totalItems)
+    await addToCart(productId, quantity)
 
     revalidatePath("/cart")
 
@@ -42,9 +39,7 @@ export async function updateQuantityAction(
   quantity: number
 ): Promise<ActionType> {
   try {
-    const cart = await updateQuantity(productId, quantity)
-
-    await setCartCount(cart.data.totalItems)
+    await updateQuantity(productId, quantity)
 
     revalidatePath("/cart")
 
@@ -58,9 +53,7 @@ export async function removeFromCartAction(
   productId: string
 ): Promise<ActionType> {
   try {
-    const cart = await removeFromCart(productId)
-
-    await setCartCount(cart.data.totalItems)
+    await removeFromCart(productId)
 
     revalidatePath("/cart")
 
@@ -71,7 +64,5 @@ export async function removeFromCartAction(
 }
 
 export async function clearCartAction(): Promise<void> {
-  await clearCartCount()
-
   revalidatePath("/cart")
 }

@@ -12,7 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { addToCartAction } from "@/app/(features)/cart/actions"
+import { addToCartAction } from "@/actions/cart-actions"
 
 type ProductActionsProps = {
   productId: string

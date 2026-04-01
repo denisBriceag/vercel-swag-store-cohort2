@@ -1,14 +1,17 @@
 import { getProducts } from "@/lib/api/products.api"
 import ProductItem from "@/components/products/product-item"
 import Link from "next/link"
-import { cacheLife } from "next/cache"
+import { cacheLife, cacheTag } from "next/cache"
+import { CACHE_TAGS } from "@/constants/app-constants"
 
 /**
- * @description Featured products are revalidated every 2 days
- * */
+ * @description Featured products - timings controlled via FEATURED_PRODUCTS_* env vars.
+ * Revalidate: POST /api/revalidate/products
+ */
 export default async function FeaturedProducts() {
   "use cache"
-  cacheLife({ revalidate: 60 * 60 * 24 * 2 })
+  cacheLife(CACHE_TAGS.FEATURED_PRODUCTS)
+  cacheTag(CACHE_TAGS.FEATURED_PRODUCTS, CACHE_TAGS.PRODUCTS)
 
   const products = await getProducts({
     page: 1,

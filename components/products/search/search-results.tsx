@@ -7,10 +7,9 @@ import { SuccessResponseMeta } from "@/types/response"
 import { Product } from "@/types/products/product"
 import ProductItem from "@/components/products/product-item"
 
-import { buildSearchQuery } from "../utils/build-search-query"
-import { SearchPageProps } from "../types/search-params-props"
-
 import SearchPagination from "./search-pagination"
+import { SearchPageProps } from "@/types/search/search-params-props"
+import { buildSearchQuery } from "@/utils/search/build-search-query"
 
 export default async function SearchResults({ searchParams }: SearchPageProps) {
   const params = await searchParams

@@ -3,10 +3,10 @@ import {
   ProductSearchQueryStringified,
 } from "@/types/products/product-search-query"
 
-import { DEFAULT_LIMIT, DEFAULT_PAGE } from "../constants/constants"
-
 import { parsePositiveNumber } from "./parse-positive-number"
 import { parseBoolean } from "./parse-boolean"
+
+import { DEFAULT_LIMIT, DEFAULT_PAGE } from "@/constants/search-constants"
 
 export function buildSearchQuery(
   params: ProductSearchQueryStringified

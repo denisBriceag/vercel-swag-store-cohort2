@@ -9,7 +9,10 @@ import { Loader2, Minus, Plus, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { CartItemWithProduct } from "@/types/cart/cart-item-product"
 import { pricePipe } from "@/utils/price"
-import { removeFromCartAction, updateQuantityAction } from "../actions"
+import {
+  removeFromCartAction,
+  updateQuantityAction,
+} from "@/actions/cart-actions"
 
 type CartItemProps = {
   item: CartItemWithProduct

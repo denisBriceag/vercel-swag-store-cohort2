@@ -2,7 +2,8 @@ import { apiClient } from "@/lib/api/client"
 import { Product } from "@/types/products/product"
 import { ProductSearchQuery } from "@/types/products/product-search-query"
 import { StockInfo } from "@/types/stock/stock-info"
-import { cacheLife } from "next/cache"
+import { cacheLife, cacheTag } from "next/cache"
+import { CACHE_TAGS, productCacheTag } from "@/constants/app-constants"
 
 export function getProducts(query: ProductSearchQuery = {}) {
   return apiClient<Product[]>({
@@ -12,16 +13,14 @@ export function getProducts(query: ProductSearchQuery = {}) {
   })
 }
 
-/**
- * @description We cache product details for hours because the product details data will less likely change frequently.
- * */
-export async function getProductById(id: string) {
+export async function getProductDetails(slug: string) {
   "use cache"
-  cacheLife("hours")
+  cacheLife(CACHE_TAGS.PRODUCTS)
+  cacheTag(CACHE_TAGS.PRODUCTS, productCacheTag(slug))
 
   return apiClient<Product>({
     method: "GET",
-    path: `products/${id}`,
+    path: `products/${slug}`,
   })
 }
 

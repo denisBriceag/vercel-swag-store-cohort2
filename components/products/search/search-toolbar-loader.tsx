@@ -1,9 +1,9 @@
 import { getCategories } from "@/lib/api/category.api"
 
-import SearchToolbar from "../components/search-toolbar"
+import SearchToolbar from "./search-toolbar"
 
-import { buildSearchQuery } from "../utils/build-search-query"
-import { SearchPageProps } from "../types/search-params-props"
+import { SearchPageProps } from "@/types/search/search-params-props"
+import { buildSearchQuery } from "@/utils/search/build-search-query"
 
 export default async function SearchToolbarLoader({
   searchParams,

@@ -1,12 +1,12 @@
 import { Suspense } from "react"
 import { Metadata } from "next"
 
-import SearchToolbarLoader from "./components/search-toolbar-loader"
-import SearchToolbarSkeleton from "./components/search-toolbar-skeleton"
-import SearchResults from "./components/search-results"
-import SearchResultsSkeleton from "./components/search-results-skeleton"
+import { SearchPageProps } from "@/types/search/search-params-props"
 
-import { SearchPageProps } from "./types/search-params-props"
+import SearchToolbarLoader from "@/components/products/search/search-toolbar-loader"
+import SearchToolbarSkeleton from "@/components/products/search/search-toolbar-skeleton"
+import SearchResultsSkeleton from "@/components/products/search/search-results-skeleton"
+import SearchResults from "@/components/products/search/search-results"
 
 export async function generateMetadata({
   searchParams,
