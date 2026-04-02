@@ -8,6 +8,7 @@
     "dev": "cross-env NODE_ENV=development next dev --turbopack",
     "start": "next start",
     "build": "next build",
+    "build:stats": "next experimental-analyze",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit"

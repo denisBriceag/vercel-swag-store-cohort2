@@ -3,10 +3,10 @@ import { Metadata } from "next"
 
 import { SearchPageProps } from "@/types/search/search-params-props"
 
-import SearchToolbarLoader from "@/components/products/search/search-toolbar-loader"
-import SearchToolbarSkeleton from "@/components/products/search/search-toolbar-skeleton"
-import SearchResultsSkeleton from "@/components/products/search/search-results-skeleton"
-import SearchResults from "@/components/products/search/search-results"
+import SearchToolbarLoader from "@/components/search/search-toolbar-loader"
+import SearchToolbarSkeleton from "@/components/search/search-toolbar-skeleton"
+import SearchResultsSkeleton from "@/components/search/search-results-skeleton"
+import SearchResults from "@/components/search/search-results"
 
 export async function generateMetadata({
   searchParams,

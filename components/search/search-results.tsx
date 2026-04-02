@@ -15,22 +15,10 @@ export default async function SearchResults({ searchParams }: SearchPageProps) {
   const params = await searchParams
   const query = buildSearchQuery(params)
 
-  let response: SuccessResponseMeta<Product[]>
-
-  try {
-    response = (await getProducts(query)) as SuccessResponseMeta<Product[]>
-  } catch {
-    return (
-      <section className="px-6 pb-12">
-        <p className="text-sm text-destructive">
-          Failed to load products. Please try again later.
-        </p>
-      </section>
-    )
-  }
-
-  const { data: products, meta } = response
-  const { pagination } = meta
+  const {
+    data: products,
+    meta: { pagination },
+  } = (await getProducts(query)) as SuccessResponseMeta<Product[]>
 
   return (
     <section className="px-6 pb-12">
