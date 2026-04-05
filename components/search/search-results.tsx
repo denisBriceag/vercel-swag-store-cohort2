@@ -1,5 +1,3 @@
-import { PackageSearch } from "lucide-react"
-
 import { getProducts } from "@/lib/data/products.api"
 
 import { SuccessResponseMeta } from "@/types/response"
@@ -10,6 +8,7 @@ import ProductItem from "@/components/products/product-item"
 import SearchPagination from "./search-pagination"
 import { SearchPageProps } from "@/types/search/search-params-props"
 import { buildSearchQuery } from "@/utils/search/build-search-query"
+import EmptyState from "@/components/ui/empty-state"
 
 export default async function SearchResults({ searchParams }: SearchPageProps) {
   const params = await searchParams
@@ -36,21 +35,18 @@ export default async function SearchResults({ searchParams }: SearchPageProps) {
       </p>
 
       {products.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-3 py-24 text-center text-muted-foreground">
-          <PackageSearch className="size-12 opacity-40" />
-          <p className="text-base font-medium">No products found</p>
-          {query.search && (
-            <p className="text-sm">
-              Try a different search term or remove filters.
-            </p>
-          )}
-        </div>
+        <EmptyState
+          className="h-144"
+          title="No products found."
+          description="Try a different search term or remove filters."
+        />
       ) : (
         <>
           <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((product) => (
+            {products.map((product, index) => (
               <li key={product.id}>
                 <ProductItem
+                  index={index}
                   slug={product.slug}
                   images={product.images}
                   name={product.name}

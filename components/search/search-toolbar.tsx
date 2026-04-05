@@ -38,6 +38,8 @@ import {
 } from "@/constants/search-constants"
 import { buildUpdatedSearchParams } from "@/utils/search/build-updated-search-params"
 
+import { cn } from "@/utils/utils"
+
 type SearchToolbarProps = {
   categories: Category[]
   initialQuery: ProductSearchQuery
@@ -198,7 +200,10 @@ export default function SearchToolbar({
                 role="button"
                 aria-label="Search"
                 align="inline-end"
-                className="cursor-pointer"
+                className={cn(
+                  !searchValue && "pointer-events-none",
+                  "cursor-pointer"
+                )}
                 onClick={handleManualSearch}
               >
                 {isPending ? (

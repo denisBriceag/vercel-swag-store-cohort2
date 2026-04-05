@@ -1,10 +1,14 @@
 import * as React from "react"
+
 import Link from "next/link"
 import { cacheLife, cacheTag } from "next/cache"
 
 import { getPromotion } from "@/lib/data/promotion.api"
+
 import { Promotion } from "@/types/promotions/promotion"
+
 import { cn } from "@/utils/utils"
+
 import { CACHE_TAGS } from "@/constants/app-constants"
 
 function PromoMessage({

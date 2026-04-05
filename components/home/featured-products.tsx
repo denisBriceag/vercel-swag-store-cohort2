@@ -35,8 +35,9 @@ export default async function FeaturedProducts() {
         </div>
 
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          {products.data.map(({ id, images, name, price, slug }) => (
+          {products.data.map(({ id, images, name, price, slug }, index) => (
             <ProductItem
+              index={index}
               key={id}
               slug={slug}
               images={images}

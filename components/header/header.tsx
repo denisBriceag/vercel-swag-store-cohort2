@@ -1,5 +1,7 @@
 import { Suspense } from "react"
+
 import Link from "next/link"
+
 import { ShoppingCart } from "lucide-react"
 
 import Navigation from "@/components/header/navigation"
@@ -20,9 +22,7 @@ export default function Header() {
             <Logo />
           </Link>
 
-          <Suspense fallback={null}>
-            <Navigation />
-          </Suspense>
+          <Navigation />
         </div>
 
         <Button
@@ -44,7 +44,13 @@ export default function Header() {
         </Button>
       </div>
 
-      <Promo />
+      <Suspense
+        fallback={
+          <aside className="h-10 w-full animate-pulse overflow-hidden bg-muted"></aside>
+        }
+      >
+        <Promo />
+      </Suspense>
     </header>
   )
 }

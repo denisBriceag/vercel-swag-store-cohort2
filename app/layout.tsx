@@ -52,7 +52,6 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <Footer />
 
         <Analytics />
-
         <SpeedInsights />
       </body>
     </html>
