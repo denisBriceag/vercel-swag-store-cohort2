@@ -12,7 +12,7 @@ import { pricePipe } from "@/utils/price"
 import {
   removeFromCartAction,
   updateQuantityAction,
-} from "@/actions/cart-actions"
+} from "@/lib/actions/cart-actions"
 
 type CartItemProps = {
   item: CartItemWithProduct
