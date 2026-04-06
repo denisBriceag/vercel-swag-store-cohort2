@@ -1,7 +1,9 @@
 import Link from "next/link"
-import { cacheLife } from "next/cache"
 
-import { getAppConfig } from "@/lib/data/app-configuration.api"
+import { Suspense } from "react"
+
+import FooterSocialLinks from "@/components/home/footer-social-links"
+import StoreName from "@/components/home/store-name"
 
 const companyMenu = [
   { label: "About", href: "/about" },
@@ -15,22 +17,19 @@ const legalMenu = [
   { label: "Shipping & Returns", href: "/shipping-returns" },
 ]
 
-export async function Footer() {
-  "use cache"
-  cacheLife("weeks")
-
-  const res = await getAppConfig()
-
-  const config = res.success ? res.data : null
-
+export default function Footer() {
   return (
     <footer className="border-t border-border bg-background text-foreground">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-8 py-10 md:px-12 lg:px-16">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-start">
           <div className="max-w-sm">
-            <Link href="/" className="text-sm font-semibold tracking-tight">
-              {config?.storeName ?? "SwagStore"}
-            </Link>
+            <Suspense
+              fallback={
+                <span className="inline-block h-3.5 w-20 animate-pulse rounded bg-muted" />
+              }
+            >
+              <StoreName />
+            </Suspense>
 
             <p className="mt-3 text-sm leading-6 text-muted-foreground">
               Premium products for people who care about clean design, quality
@@ -77,40 +76,28 @@ export async function Footer() {
 
         <div className="flex flex-col gap-3 border-t border-border pt-6 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
           <p>
-            © {new Date().getFullYear()} {config?.storeName ?? "SwagStore"}. All
-            rights reserved.
+            ©{" "}
+            <Suspense
+              fallback={
+                <span className="inline-block h-3 w-16 animate-pulse rounded bg-muted align-middle" />
+              }
+            >
+              <StoreName />
+            </Suspense>
+            . All rights reserved.
           </p>
 
-          {config?.socialLinks && (
-            <div className="flex gap-4">
-              <Link
-                href={config.socialLinks.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors hover:text-foreground"
-              >
-                Twitter
-              </Link>
-
-              <Link
-                href={config.socialLinks.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors hover:text-foreground"
-              >
-                GitHub
-              </Link>
-
-              <Link
-                href={config.socialLinks.discord}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors hover:text-foreground"
-              >
-                Discord
-              </Link>
-            </div>
-          )}
+          <Suspense
+            fallback={
+              <div className="flex gap-4">
+                <span className="h-3 w-12 animate-pulse rounded bg-muted" />
+                <span className="h-3 w-10 animate-pulse rounded bg-muted" />
+                <span className="h-3 w-14 animate-pulse rounded bg-muted" />
+              </div>
+            }
+          >
+            <FooterSocialLinks />
+          </Suspense>
         </div>
       </div>
     </footer>

@@ -1,6 +1,6 @@
 import ProductItemSkeleton from "@/components/products/product-item-skeleton"
 
-export default function FeaturedProductsSkeleton() {
+export default function FeaturedProductsLoading() {
   return (
     <section
       className="w-full px-4 py-16 sm:px-6 lg:px-8"

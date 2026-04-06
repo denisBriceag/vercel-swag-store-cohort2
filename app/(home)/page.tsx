@@ -1,11 +1,6 @@
 import { Metadata } from "next"
 
-import { Suspense } from "react"
-
 import Hero from "@/components/home/hero"
-import FeaturedProducts from "@/components/home/featured-products"
-
-import FeaturedProductsSkeleton from "@/components/home/featured-products-skeleton"
 
 export const metadata: Metadata = {
   description:
@@ -18,14 +13,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function MainPage() {
-  return (
-    <main>
-      <Hero />
-
-      <Suspense fallback={<FeaturedProductsSkeleton />}>
-        <FeaturedProducts />
-      </Suspense>
-    </main>
-  )
+export default function HomePage() {
+  return <Hero />
 }

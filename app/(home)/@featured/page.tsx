@@ -1,8 +1,11 @@
-import { getProducts } from "@/lib/data/products.api"
-import ProductItem from "@/components/products/product-item"
-import Link from "next/link"
 import { cacheLife, cacheTag } from "next/cache"
+import Link from "next/link"
+
+import ProductItem from "@/components/products/product-item"
+
 import { CACHE_TAGS } from "@/constants/app-constants"
+
+import { getProducts } from "@/lib/data/products.api"
 
 /**
  * @description Featured products - timings controlled via FEATURED_PRODUCTS_* env vars.

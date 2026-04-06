@@ -4,7 +4,7 @@ import { Geist } from "next/font/google"
 import "../styles/globals.css"
 
 import Header from "@/components/header/header"
-import { Footer } from "@/components/home/footer"
+import Footer from "@/components/home/footer"
 import { getAppConfig } from "@/lib/data/app-configuration.api"
 
 import { SpeedInsights } from "@vercel/speed-insights/next"
