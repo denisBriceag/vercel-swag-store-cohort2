@@ -5,7 +5,11 @@ import { StockInfo } from "@/types/stock/stock-info"
 import { cacheLife, cacheTag } from "next/cache"
 import { CACHE_TAGS, productCacheTag } from "@/constants/app-constants"
 
-export function getProducts(query: ProductSearchQuery = {}) {
+export async function getProducts(query: ProductSearchQuery = {}) {
+  "use cache"
+  cacheLife(CACHE_TAGS.PRODUCTS)
+  cacheTag(CACHE_TAGS.PRODUCTS)
+
   return apiClient<Product[]>({
     method: "GET",
     path: "products",

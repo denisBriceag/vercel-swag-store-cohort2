@@ -9,7 +9,7 @@ type CartSummaryProps = {
 }
 
 export default function CartSummary({ cart }: CartSummaryProps) {
-  const subtotal = pricePipe(Number(cart.subtotal))
+  const subtotal = pricePipe(cart.subtotal)
 
   return (
     <div className="rounded-xl border border-border bg-card p-6">

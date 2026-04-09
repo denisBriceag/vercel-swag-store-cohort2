@@ -4,8 +4,8 @@ import { NextResponse } from "next/server"
 import { CACHE_TAGS } from "@/constants/app-constants"
 
 export async function POST() {
-  revalidateTag(CACHE_TAGS.PRODUCTS, CACHE_TAGS.PRODUCTS)
-  revalidateTag(CACHE_TAGS.FEATURED_PRODUCTS, CACHE_TAGS.FEATURED_PRODUCTS)
+  revalidateTag(CACHE_TAGS.PRODUCTS, "max")
+  revalidateTag(CACHE_TAGS.FEATURED_PRODUCTS, "max")
 
   return NextResponse.json({
     revalidated: true,

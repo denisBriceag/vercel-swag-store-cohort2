@@ -1,6 +1,8 @@
 import { Suspense } from "react"
 import { Metadata } from "next"
 
+import { nanoid } from "nanoid"
+
 import { SearchPageProps } from "@/types/search/search-params-props"
 
 import SearchToolbarLoader from "@/components/search/search-toolbar-loader"
@@ -30,7 +32,7 @@ export default function SearchPage({ searchParams }: SearchPageProps) {
         <SearchToolbarLoader searchParams={searchParams} />
       </Suspense>
 
-      <Suspense fallback={<SearchResultsSkeleton />}>
+      <Suspense key={nanoid()} fallback={<SearchResultsSkeleton />}>
         <SearchResults searchParams={searchParams} />
       </Suspense>
     </>

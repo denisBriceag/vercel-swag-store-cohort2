@@ -10,7 +10,7 @@ export async function POST(
   const { slug } = await params
 
   revalidateTag(productCacheTag(slug), "max")
-  revalidateTag(CACHE_TAGS.PRODUCTS, CACHE_TAGS.PRODUCTS)
+  revalidateTag(CACHE_TAGS.PRODUCTS, "max")
 
   return NextResponse.json({ revalidated: true, slug })
 }
