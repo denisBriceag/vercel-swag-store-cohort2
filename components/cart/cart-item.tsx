@@ -1,6 +1,7 @@
 "use client"
 
-import { useOptimistic, useTransition } from "react"
+import { useActionState, useEffect, useOptimistic, useTransition } from "react"
+
 import Image from "next/image"
 import Link from "next/link"
 
@@ -9,8 +10,11 @@ import { Loader2, Minus, Plus, Trash2 } from "lucide-react"
 import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
+
 import { CartItemWithProduct } from "@/types/cart/cart-item-product"
+
 import { pricePipe } from "@/utils/price"
+
 import {
   removeFromCartAction,
   updateQuantityAction,
@@ -26,42 +30,28 @@ export default function CartItem({ item }: CartItemProps) {
   const { product, quantity, lineTotal } = item
 
   const [optimisticQuantity, setOptimisticQuantity] = useOptimistic(quantity)
+  const [removeState, removeFormAction, isRemovePending] = useActionState(
+    () => removeFromCartAction(product.id),
+    { success: false }
+  )
 
-  function handleDecrement() {
-    if (optimisticQuantity <= 1) return
+  useEffect(() => {
+    if (removeState.sessionExpired) {
+      toast.warning("Your cart session has expired.")
+    }
+  }, [removeState])
+
+  const isAnyPending = isPending || isRemovePending
+
+  function handleQuantityChange(delta: number) {
+    const newQuantity = optimisticQuantity + delta
+
+    if (newQuantity < 1) return
 
     startTransition(async () => {
-      setOptimisticQuantity(optimisticQuantity - 1)
+      setOptimisticQuantity(newQuantity)
 
-      const result = await updateQuantityAction(
-        product.id,
-        optimisticQuantity - 1
-      )
-
-      if (result.sessionExpired) {
-        toast.warning("Your cart session has expired.")
-      }
-    })
-  }
-
-  function handleIncrement() {
-    startTransition(async () => {
-      setOptimisticQuantity(optimisticQuantity + 1)
-
-      const result = await updateQuantityAction(
-        product.id,
-        optimisticQuantity + 1
-      )
-
-      if (result.sessionExpired) {
-        toast.warning("Your cart session has expired.")
-      }
-    })
-  }
-
-  function handleRemove() {
-    startTransition(async () => {
-      const result = await removeFromCartAction(product.id)
+      const result = await updateQuantityAction(product.id, newQuantity)
 
       if (result.sessionExpired) {
         toast.warning("Your cart session has expired.")
@@ -71,12 +61,12 @@ export default function CartItem({ item }: CartItemProps) {
 
   return (
     <li
-      className={`flex gap-4 py-5 transition-opacity ${isPending ? "pointer-events-none opacity-50" : ""}`}
+      className={`flex gap-4 py-5 transition-opacity ${isAnyPending ? "pointer-events-none opacity-50" : ""}`}
     >
       <Link
         href={`/products/${product.slug}`}
         className="relative size-20 shrink-0 overflow-hidden rounded-lg border border-border bg-muted sm:size-24"
-        tabIndex={isPending ? -1 : undefined}
+        tabIndex={isAnyPending ? -1 : undefined}
       >
         {product.images[0] ? (
           <Image
@@ -95,7 +85,7 @@ export default function CartItem({ item }: CartItemProps) {
             <Link
               href={`/products/${product.slug}`}
               className="line-clamp-2 text-sm font-medium text-foreground transition-colors hover:text-foreground/70"
-              tabIndex={isPending ? -1 : undefined}
+              tabIndex={isAnyPending ? -1 : undefined}
             >
               {product.name}
             </Link>
@@ -105,20 +95,22 @@ export default function CartItem({ item }: CartItemProps) {
             </span>
           </div>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="size-7 shrink-0 text-muted-foreground hover:text-destructive"
-            aria-label={`Remove ${product.name}`}
-            onClick={handleRemove}
-            disabled={isPending}
-          >
-            {isPending ? (
-              <Loader2 className="size-3.5 animate-spin" />
-            ) : (
-              <Trash2 className="size-3.5" />
-            )}
-          </Button>
+          <form action={removeFormAction}>
+            <Button
+              type="submit"
+              variant="ghost"
+              size="icon"
+              className="size-7 shrink-0 text-muted-foreground hover:text-destructive"
+              aria-label={`Remove ${product.name}`}
+              disabled={isAnyPending}
+            >
+              {isRemovePending ? (
+                <Loader2 className="size-3.5 animate-spin" />
+              ) : (
+                <Trash2 className="size-3.5" />
+              )}
+            </Button>
+          </form>
         </div>
 
         <div className="flex items-center justify-between gap-2">
@@ -127,8 +119,8 @@ export default function CartItem({ item }: CartItemProps) {
               variant="outline"
               size="icon"
               className="size-7"
-              onClick={handleDecrement}
-              disabled={isPending || optimisticQuantity <= 1}
+              onClick={() => handleQuantityChange(-1)}
+              disabled={isAnyPending || optimisticQuantity <= 1}
               aria-label="Decrease quantity"
             >
               <Minus className="size-3" />
@@ -142,8 +134,8 @@ export default function CartItem({ item }: CartItemProps) {
               variant="outline"
               size="icon"
               className="size-7"
-              onClick={handleIncrement}
-              disabled={isPending}
+              onClick={() => handleQuantityChange(1)}
+              disabled={isAnyPending}
               aria-label="Increase quantity"
             >
               <Plus className="size-3" />
