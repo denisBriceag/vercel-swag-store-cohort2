@@ -5,6 +5,8 @@ import "../styles/globals.css"
 
 import Header from "@/components/header/header"
 import Footer from "@/components/home/footer"
+import { Toaster } from "@/components/ui/sonner"
+
 import { getAppConfig } from "@/lib/data/app-configuration.api"
 
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -51,6 +53,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
 
         <Footer />
 
+        <Toaster />
         <Analytics />
         <SpeedInsights />
       </body>

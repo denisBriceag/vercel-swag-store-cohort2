@@ -23,17 +23,20 @@ export default function CartSummary({ cart }: CartSummaryProps) {
             Subtotal ({cart.totalItems}{" "}
             {cart.totalItems === 1 ? "item" : "items"})
           </span>
+
           <span className="text-foreground tabular-nums">{subtotal}</span>
         </div>
 
         <div className="flex items-center justify-between gap-4">
           <span className="text-muted-foreground">Shipping</span>
+
           <span className="text-muted-foreground">Calculated at checkout</span>
         </div>
       </div>
 
       <div className="flex items-center justify-between gap-4 pt-4 text-sm">
         <span className="font-medium text-foreground">Total</span>
+
         <span className="font-semibold text-foreground tabular-nums">
           {subtotal}
         </span>

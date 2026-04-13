@@ -41,6 +41,11 @@ const nextConfig: NextConfig = {
       revalidate: Number(process.env.CATEGORIES_REVALIDATE) || 3600,
       expire: Number(process.env.CATEGORIES_EXPIRE) || 86400,
     },
+    [CACHE_TAGS.CART]: {
+      stale: Number(process.env.CART_STALE) || 30,
+      revalidate: Number(process.env.CART_REVALIDATE) || 60,
+      expire: Number(process.env.CART_EXPIRE) || 3600,
+    },
   },
   images: {
     remotePatterns: [

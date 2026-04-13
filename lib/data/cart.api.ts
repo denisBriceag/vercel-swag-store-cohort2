@@ -1,4 +1,7 @@
+import { cacheLife, cacheTag } from "next/cache"
+
 import { apiClient } from "@/lib/data/client"
+
 import {
   clearCartToken,
   getCartToken,
@@ -6,6 +9,9 @@ import {
 } from "@/lib/cart/cart-token"
 import { CartWithProducts } from "@/types/cart/cart-products"
 import { UpdateCart } from "@/types/cart/update-cart"
+import { ApiHttpError } from "@/types/server-error"
+
+import { cartCacheTag, CACHE_TAGS } from "@/constants/app-constants"
 
 async function cartHeaders(): Promise<Record<string, string>> {
   const token = await getCartToken()
@@ -13,12 +19,37 @@ async function cartHeaders(): Promise<Record<string, string>> {
   return token ? { "x-cart-token": token } : {}
 }
 
-export async function getCart() {
-  return apiClient<CartWithProducts>({
+/**
+ * The cart response will be cached for a relatively small amount of time (approx. 1 minute)
+ * Then the cart tag will be updated on demand using updateTag api inside related server actions.
+ * */
+async function getCachedCart(token: string): Promise<CartWithProducts> {
+  "use cache"
+  cacheTag(cartCacheTag(token))
+  cacheLife(CACHE_TAGS.CART)
+
+  const response = await apiClient<CartWithProducts>({
     method: "GET",
     path: `cart`,
-    headers: await cartHeaders(),
+    headers: { "x-cart-token": token },
   })
+
+  return response.data
+}
+
+export async function getCart(): Promise<CartWithProducts | null> {
+  const token = await getCartToken()
+
+  if (!token) return null
+
+  try {
+    return await getCachedCart(token)
+  } catch (error) {
+    if (error instanceof ApiHttpError && error.status === 404) {
+      return null
+    }
+    return null
+  }
 }
 
 export async function createCart() {

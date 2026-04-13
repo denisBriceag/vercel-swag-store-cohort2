@@ -1,8 +1,9 @@
 "use client"
 
 import { useState, useTransition } from "react"
-import { useRouter } from "next/navigation"
+
 import { Loader2, Minus, Plus, ShoppingCart } from "lucide-react"
+import { toast } from "sonner"
 
 import { StockInfo } from "@/types/stock/stock-info"
 import { Button } from "@/components/ui/button"
@@ -26,8 +27,6 @@ export default function ProductActions({
   const canBuy = stockInfo !== null && stockInfo.inStock && stockInfo.stock > 0
   const maxQty = stockInfo?.stock ?? 1
 
-  const router = useRouter()
-
   const [quantity, setQuantity] = useState(1)
   const [isPending, startTransition] = useTransition()
 
@@ -43,8 +42,8 @@ export default function ProductActions({
     startTransition(async () => {
       const result = await addToCartAction(productId, quantity)
 
-      if (result.success) {
-        router.refresh()
+      if (result.sessionExpired) {
+        toast.warning("Cart session expired. A new cart was created for you.")
       }
     })
   }

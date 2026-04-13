@@ -1,10 +1,12 @@
 "use client"
 
 import { useOptimistic, useTransition } from "react"
-import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
+
 import { Loader2, Minus, Plus, Trash2 } from "lucide-react"
+
+import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { CartItemWithProduct } from "@/types/cart/cart-item-product"
@@ -19,7 +21,6 @@ type CartItemProps = {
 }
 
 export default function CartItem({ item }: CartItemProps) {
-  const router = useRouter()
   const [isPending, startTransition] = useTransition()
 
   const { product, quantity, lineTotal } = item
@@ -32,9 +33,14 @@ export default function CartItem({ item }: CartItemProps) {
     startTransition(async () => {
       setOptimisticQuantity(optimisticQuantity - 1)
 
-      await updateQuantityAction(product.id, optimisticQuantity - 1)
+      const result = await updateQuantityAction(
+        product.id,
+        optimisticQuantity - 1
+      )
 
-      router.refresh()
+      if (result.sessionExpired) {
+        toast.warning("Your cart session has expired.")
+      }
     })
   }
 
@@ -42,17 +48,24 @@ export default function CartItem({ item }: CartItemProps) {
     startTransition(async () => {
       setOptimisticQuantity(optimisticQuantity + 1)
 
-      await updateQuantityAction(product.id, optimisticQuantity + 1)
+      const result = await updateQuantityAction(
+        product.id,
+        optimisticQuantity + 1
+      )
 
-      router.refresh()
+      if (result.sessionExpired) {
+        toast.warning("Your cart session has expired.")
+      }
     })
   }
 
   function handleRemove() {
     startTransition(async () => {
-      await removeFromCartAction(product.id)
+      const result = await removeFromCartAction(product.id)
 
-      router.refresh()
+      if (result.sessionExpired) {
+        toast.warning("Your cart session has expired.")
+      }
     })
   }
 
@@ -76,7 +89,6 @@ export default function CartItem({ item }: CartItemProps) {
         ) : null}
       </Link>
 
-      {/* Details */}
       <div className="flex flex-1 flex-col justify-between gap-2">
         <div className="flex items-start justify-between gap-2">
           <div className="flex flex-col gap-0.5">
