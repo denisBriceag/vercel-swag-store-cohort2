@@ -8,10 +8,10 @@ export default function Error({ reset }: { error: Error; reset: () => void }) {
   const reload = useError(reset)
 
   return (
-    <section className="flex h-120 w-full items-center justify-center px-4 py-16 sm:px-6 lg:px-8">
+    <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 p-6 text-center">
       <EmptyState
-        title="Featured products unavailable"
-        description="Something went wrong while loading our featured products."
+        title="Page unavailable."
+        description="Something went wrong while loading the page."
       >
         <button
           onClick={reload}
@@ -20,6 +20,6 @@ export default function Error({ reset }: { error: Error; reset: () => void }) {
           Try again
         </button>
       </EmptyState>
-    </section>
+    </div>
   )
 }

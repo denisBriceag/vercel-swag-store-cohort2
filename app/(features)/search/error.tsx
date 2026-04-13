@@ -2,15 +2,29 @@
 
 import EmptyState from "@/components/ui/empty-state"
 
-export default function SearchError() {
+import useError from "@/hooks/use-error"
+
+export default function SearchError({
+  reset,
+}: {
+  error: Error
+  reset: () => void
+}) {
+  const reload = useError(reset)
+
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 p-6 text-center">
       <EmptyState
         title="Something went wrong. Search unavailable."
         description="We couldn't load the search results. Please try again later."
-        actionHref="/"
-        actionLabel="Go back home."
-      />
+      >
+        <button
+          onClick={reload}
+          className="mt-1 rounded-4xl border border-border bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
+        >
+          Try again
+        </button>
+      </EmptyState>
     </div>
   )
 }

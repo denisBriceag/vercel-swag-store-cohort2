@@ -17,8 +17,8 @@ export default function FeaturedProductsLoading() {
         </div>
 
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <ProductItemSkeleton key={i} />
+          {Array.from({ length: 6 }).map((_, index) => (
+            <ProductItemSkeleton key={index} />
           ))}
         </div>
       </div>

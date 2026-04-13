@@ -52,6 +52,7 @@ export default async function Page({ params }: PageProps) {
       <h1 className="text-2xl font-bold tracking-tight text-foreground">
         {title}
       </h1>
+
       <div className="mt-8 space-y-4 text-sm leading-7 text-muted-foreground">
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
