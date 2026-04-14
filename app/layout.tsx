@@ -39,6 +39,21 @@ export async function generateMetadata(): Promise<Metadata> {
       title: seo.defaultTitle,
       description: seo.defaultDescription,
       url: appUrl,
+      locale: "en_US",
+    },
+    twitter: {
+      title: seo.defaultTitle,
+      description: seo.defaultDescription,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      nocache: false,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-snippet": -1,
+      },
     },
   }
 }

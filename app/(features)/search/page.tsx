@@ -22,6 +22,7 @@ export async function generateMetadata({
       title,
       url: search ? `/search?search=${encodeURIComponent(search)}` : "/search",
     },
+    ...(search && { robots: { index: false } }),
   }
 }
 

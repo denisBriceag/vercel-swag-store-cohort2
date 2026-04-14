@@ -1,17 +1,30 @@
 "use client"
 
 import EmptyState from "@/components/ui/empty-state"
+import useError from "@/hooks/use-error"
 
-export default function ProductError() {
+export default function ProductError({
+  reset,
+}: {
+  error: Error
+  reset: () => void
+}) {
+  const reload = useError(reset)
+
   return (
-    <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 p-6 text-center">
+    <section className="flex min-h-[60vh] flex-col items-center justify-center gap-4 p-6 text-center">
       <EmptyState
         title="Something went wrong. Failed to load product"
         description="We couldn&#39;t load this product. Please try again or browse other
         products."
-        actionHref="/search"
-        actionLabel="Browse products."
-      />
-    </div>
+      >
+        <button
+          onClick={reload}
+          className="mt-1 rounded-4xl border border-border bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
+        >
+          Try again
+        </button>
+      </EmptyState>
+    </section>
   )
 }

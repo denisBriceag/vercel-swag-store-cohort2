@@ -35,13 +35,13 @@ export default function CartItem({ item }: CartItemProps) {
     { success: false }
   )
 
+  const isAnyPending = isPending || isRemovePending
+
   useEffect(() => {
     if (removeState.sessionExpired) {
       toast.warning("Your cart session has expired.")
     }
   }, [removeState])
-
-  const isAnyPending = isPending || isRemovePending
 
   function handleQuantityChange(delta: number) {
     const newQuantity = optimisticQuantity + delta

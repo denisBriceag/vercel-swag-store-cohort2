@@ -1,3 +1,12 @@
+export const STATIC_PAGES = {
+  about: "About",
+  contact: "Contact",
+  faq: "FAQ",
+  privacy: "Privacy",
+  terms: "Terms",
+  "shipping-returns": "Shipping & Returns",
+} as const
+
 export const CACHE_TAGS = {
   PAGES: "pages",
   PROMO: "promo",

@@ -37,11 +37,12 @@ export async function generateMetadata({
 
   if (!res.success) return {}
 
-  const { name, description, images } = res.data
+  const { name, description, images, tags } = res.data
 
   return {
     title: name,
     description,
+    keywords: [name, ...tags],
     openGraph: {
       title: name,
       description,

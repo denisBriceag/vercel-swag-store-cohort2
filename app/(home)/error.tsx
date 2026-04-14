@@ -3,19 +3,14 @@
 import EmptyState from "@/components/ui/empty-state"
 import useError from "@/hooks/use-error"
 
-export default function CartError({
-  reset,
-}: {
-  error: Error
-  reset: () => void
-}) {
+export default function Error({ reset }: { error: Error; reset: () => void }) {
   const reload = useError(reset)
 
   return (
     <section className="flex min-h-[60vh] flex-col items-center justify-center gap-4 p-6 text-center">
       <EmptyState
-        title="Something went wrong. Failed to load cart."
-        description="We couldn't load your cart. Please try again."
+        title="Something went wrong."
+        description="An unexpected error occurred. Please try again."
       >
         <button
           onClick={reload}

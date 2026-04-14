@@ -1,26 +1,18 @@
 import { notFound } from "next/navigation"
 import { Metadata } from "next"
 import { cacheLife, cacheTag } from "next/cache"
-import { CACHE_TAGS } from "@/constants/app-constants"
+import { CACHE_TAGS, STATIC_PAGES } from "@/constants/app-constants"
 
-const PAGES = {
-  about: "About",
-  contact: "Contact",
-  faq: "FAQ",
-  privacy: "Privacy",
-  terms: "Terms",
-  "shipping-returns": "Shipping & Returns",
-} as const
-
+type StaticPageSlug = keyof typeof STATIC_PAGES
 type PageProps = {
-  params: Promise<{ slug: keyof typeof PAGES }>
+  params: Promise<{ slug: StaticPageSlug }>
 }
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const title = PAGES[slug]
+  const title = STATIC_PAGES[slug]
 
   if (!title) return {}
 
@@ -34,7 +26,7 @@ export async function generateMetadata({
 }
 
 export function generateStaticParams(): { slug: string }[] {
-  return Object.keys(PAGES).map((slug) => ({ slug }))
+  return Object.keys(STATIC_PAGES).map((slug) => ({ slug }))
 }
 
 export default async function Page({ params }: PageProps) {
@@ -43,7 +35,7 @@ export default async function Page({ params }: PageProps) {
   cacheTag(CACHE_TAGS.PAGES)
 
   const { slug } = await params
-  const title = PAGES[slug]
+  const title = STATIC_PAGES[slug]
 
   if (!title) notFound()
 
