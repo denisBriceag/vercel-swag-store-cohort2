@@ -1,11 +1,10 @@
 import { cookies } from "next/headers"
 
-const CART_TOKEN_COOKIE = "cart-token"
-
 /**
  * @description Keep cart token inside http cookies for 1 week
  * */
 const CART_TOKEN_MAX_AGE = 60 * 60 * 24 * 7
+const CART_TOKEN_COOKIE = "cart-token"
 
 export async function getCartToken(): Promise<string | undefined> {
   const cookieStore = await cookies()

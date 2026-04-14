@@ -1,26 +1,18 @@
-import { Suspense } from "react"
 import { notFound } from "next/navigation"
 import { Metadata } from "next"
-import { cacheLife } from "next/cache"
+import { cacheLife, cacheTag } from "next/cache"
+import { CACHE_TAGS, STATIC_PAGES } from "@/constants/app-constants"
 
-const PAGES = {
-  about: "About",
-  contact: "Contact",
-  faq: "FAQ",
-  privacy: "Privacy",
-  terms: "Terms",
-  "shipping-returns": "Shipping & Returns",
-} as const
-
+type StaticPageSlug = keyof typeof STATIC_PAGES
 type PageProps = {
-  params: Promise<{ slug: keyof typeof PAGES }>
+  params: Promise<{ slug: StaticPageSlug }>
 }
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const title = PAGES[slug]
+  const title = STATIC_PAGES[slug]
 
   if (!title) return {}
 
@@ -33,18 +25,23 @@ export async function generateMetadata({
   }
 }
 
-async function PageContent({ params }: PageProps) {
+export function generateStaticParams(): { slug: string }[] {
+  return Object.keys(STATIC_PAGES).map((slug) => ({ slug }))
+}
+
+export default async function Page({ params }: PageProps) {
   "use cache"
-  cacheLife("max")
+  cacheLife(CACHE_TAGS.PAGES)
+  cacheTag(CACHE_TAGS.PAGES)
 
   const { slug } = await params
-  const title = PAGES[slug]
+  const title = STATIC_PAGES[slug]
 
   if (!title) notFound()
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold tracking-tight text-foreground">
+      <h1 className="text-2xl font-bold tracking-tight text-foreground">
         {title}
       </h1>
 
@@ -71,13 +68,5 @@ async function PageContent({ params }: PageProps) {
         </p>
       </div>
     </article>
-  )
-}
-
-export default function Page({ params }: PageProps) {
-  return (
-    <Suspense>
-      <PageContent params={params} />
-    </Suspense>
   )
 }

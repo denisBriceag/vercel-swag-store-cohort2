@@ -1,12 +1,14 @@
 import { Suspense } from "react"
 import { Metadata } from "next"
 
-import SearchToolbarLoader from "./components/search-toolbar-loader"
-import SearchToolbarSkeleton from "./components/search-toolbar-skeleton"
-import SearchResults from "./components/search-results"
-import SearchResultsSkeleton from "./components/search-results-skeleton"
+import { nanoid } from "nanoid"
 
-import { SearchPageProps } from "./types/search-params-props"
+import { SearchPageProps } from "@/types/search/search-params-props"
+
+import SearchToolbarLoader from "@/components/search/search-toolbar-loader"
+import SearchToolbarSkeleton from "@/components/search/search-toolbar-skeleton"
+import SearchResultsSkeleton from "@/components/search/search-results-skeleton"
+import SearchResults from "@/components/search/search-results"
 
 export async function generateMetadata({
   searchParams,
@@ -20,6 +22,7 @@ export async function generateMetadata({
       title,
       url: search ? `/search?search=${encodeURIComponent(search)}` : "/search",
     },
+    ...(search && { robots: { index: false } }),
   }
 }
 
@@ -30,7 +33,7 @@ export default function SearchPage({ searchParams }: SearchPageProps) {
         <SearchToolbarLoader searchParams={searchParams} />
       </Suspense>
 
-      <Suspense fallback={<SearchResultsSkeleton />}>
+      <Suspense key={nanoid()} fallback={<SearchResultsSkeleton />}>
         <SearchResults searchParams={searchParams} />
       </Suspense>
     </>

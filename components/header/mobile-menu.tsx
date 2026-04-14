@@ -1,5 +1,3 @@
-"use client"
-
 import { ComponentType } from "react"
 import Link from "next/link"
 
@@ -33,7 +31,12 @@ export default function MobileMenu() {
   return (
     <Drawer direction="left">
       <DrawerTrigger asChild className="block md:hidden">
-        <Button variant="ghost" size="icon" aria-label="Open menu">
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Open menu"
+          className="flex justify-center"
+        >
           <Menu />
         </Button>
       </DrawerTrigger>

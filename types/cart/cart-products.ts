@@ -5,7 +5,7 @@ export type CartWithProducts = {
   updatedAt: string
   currency: string
   items: CartItemWithProduct[]
-  subtotal: string
+  subtotal: number
   token: string
   totalItems: number
 }

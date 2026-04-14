@@ -1,36 +1,21 @@
-/**
- * @description We don't use next/Image here because SVG is already well optimized.
- * */
+import { LogoDesktop, LogoMobile } from "@/icons"
+
 export default function Logo() {
   return (
     <>
-      <picture className="hidden md:block">
-        <source
-          srcSet="/logo-desktop-dark.svg"
-          media="(prefers-color-scheme: dark)"
-        />
-        <img
-          src="/logo-desktop-light.svg"
-          alt="Vercel Swag Store"
-          width={160}
-          height={20}
-          loading="eager"
-        />
-      </picture>
+      <LogoDesktop
+        className="hidden text-primary md:block dark:text-white"
+        aria-label="Vercel Swag Store"
+        width={160}
+        height={20}
+      />
 
-      <picture className="block md:hidden">
-        <source
-          srcSet="/logo-mobile-dark.svg"
-          media="(prefers-color-scheme: dark)"
-        />
-        <img
-          src="/logo-mobile-light.svg"
-          alt="Vercel Swag Store"
-          width={32}
-          height={32}
-          loading="eager"
-        />
-      </picture>
+      <LogoMobile
+        className="block text-primary md:hidden dark:text-white"
+        aria-label="Vercel Swag Store"
+        width={32}
+        height={32}
+      />
     </>
   )
 }

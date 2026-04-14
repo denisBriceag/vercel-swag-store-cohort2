@@ -3,13 +3,17 @@ import Link from "next/link"
 import { pricePipe } from "@/utils/price"
 import { Product } from "@/types/products/product"
 
-type ProductPreviewProps = Pick<Product, "name" | "images" | "price" | "slug">
+type ProductPreviewProps = Pick<
+  Product,
+  "name" | "images" | "price" | "slug"
+> & { index: number }
 
 export default function ProductItem({
   slug,
   images,
   name,
   price,
+  index,
 }: ProductPreviewProps) {
   const formattedPrice = pricePipe(price)
 
@@ -21,9 +25,9 @@ export default function ProductItem({
             <Image
               src={images[0]}
               alt={name}
-              loading="lazy"
+              priority={index < 6}
               fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
               className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
             />
           ) : (
