@@ -14,9 +14,14 @@ export default async function OpenGraphImage() {
   const res = await getAppConfig()
 
   const storeName = res.success ? res.data.storeName : "SwagStore"
-  const heroImageUrl = `${process.env.NEXT_PUBLIC_APP_URL}/hero-image.jpg`
-  const file = await readFile(join(process.cwd(), "./fonts/Geist-SemiBold.ttf"))
-  const font = Uint8Array.from(file).buffer
+
+  const [fontFile, heroImageFile] = await Promise.all([
+    readFile(join(process.cwd(), "./fonts/Geist-SemiBold.ttf")),
+    readFile(join(process.cwd(), "./public/hero-image.jpg")),
+  ])
+
+  const font = Uint8Array.from(fontFile).buffer
+  const heroImageSrc = `data:image/jpeg;base64,${heroImageFile.toString("base64")}`
 
   return new ImageResponse(
     <div
@@ -29,7 +34,7 @@ export default async function OpenGraphImage() {
       }}
     >
       <img
-        src={heroImageUrl}
+        src={heroImageSrc}
         style={{
           position: "absolute",
           top: 0,

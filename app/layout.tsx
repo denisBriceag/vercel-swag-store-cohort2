@@ -19,15 +19,23 @@ const fontSans = Geist({
 })
 
 export async function generateMetadata(): Promise<Metadata> {
-  const res = await getAppConfig()
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL
+  const metadataBase = appUrl ? new URL(appUrl) : undefined
 
-  if (!res.success) return {}
+  let res: Awaited<ReturnType<typeof getAppConfig>>
+
+  try {
+    res = await getAppConfig()
+  } catch {
+    return { metadataBase }
+  }
+
+  if (!res.success) return { metadataBase }
 
   const { seo } = res.data
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL
 
   return {
-    metadataBase: appUrl ? new URL(appUrl) : undefined,
+    metadataBase,
     title: {
       default: seo.defaultTitle,
       template: seo.titleTemplate,
