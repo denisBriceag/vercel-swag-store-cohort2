@@ -147,7 +147,7 @@ export default function SearchToolbar({
 
           <Field className="w-full md:w-fit">
             <Select value={categoryValue} onValueChange={handleCategoryChange}>
-              <SelectTrigger className="w-full md:max-w-56">
+              <SelectTrigger className="w-full md:max-w-56" aria-label="Filter by category">
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
 

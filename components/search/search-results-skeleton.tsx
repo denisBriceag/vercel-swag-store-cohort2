@@ -17,6 +17,21 @@ export default function SearchResultsSkeleton() {
           </li>
         ))}
       </ul>
+
+      <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+        <div className="flex items-center gap-2">
+          <div className="h-4 w-24 animate-pulse rounded-md bg-muted" />
+          <div className="h-8 w-16 animate-pulse rounded-md bg-muted" />
+        </div>
+
+        <div className="flex items-center gap-1">
+          <div className="h-9 w-20 animate-pulse rounded-md bg-muted" />
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="h-9 w-9 animate-pulse rounded-md bg-muted" />
+          ))}
+          <div className="h-9 w-20 animate-pulse rounded-md bg-muted" />
+        </div>
+      </div>
     </section>
   )
 }

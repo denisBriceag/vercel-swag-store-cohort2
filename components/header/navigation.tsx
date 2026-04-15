@@ -8,7 +8,9 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+
 import { usePathname } from "next/navigation"
+
 import { cn } from "@/utils/utils"
 
 function activeLink(path: string, pathName: string) {
