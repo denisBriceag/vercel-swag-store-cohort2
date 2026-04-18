@@ -3,12 +3,16 @@ import { Product } from "@/types/products/product"
 import { ProductSearchQuery } from "@/types/products/product-search-query"
 import { StockInfo } from "@/types/stock/stock-info"
 import { cacheLife, cacheTag } from "next/cache"
-import { CACHE_TAGS, productCacheTag } from "@/constants/app-constants"
+import {
+  CACHE_TAGS,
+  productCacheTag,
+  productsSearchCacheTag,
+} from "@/constants/app-constants"
 
 export async function getProducts(query: ProductSearchQuery = {}) {
   "use cache"
   cacheLife(CACHE_TAGS.PRODUCTS)
-  cacheTag(CACHE_TAGS.PRODUCTS)
+  cacheTag(CACHE_TAGS.PRODUCTS, productsSearchCacheTag(query))
 
   return apiClient<Product[]>({
     method: "GET",

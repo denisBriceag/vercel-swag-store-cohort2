@@ -1,3 +1,5 @@
+import { ProductSearchQuery } from "@/types/products/product-search-query"
+
 export const STATIC_PAGES = {
   about: "About",
   contact: "Contact",
@@ -19,6 +21,10 @@ export const CACHE_TAGS = {
 
 export function productCacheTag(slug: string) {
   return `product-${slug}`
+}
+
+export function productsSearchCacheTag(query: ProductSearchQuery = {}) {
+  return `product-${JSON.stringify(query)}`
 }
 
 export function cartCacheTag(token: string) {
