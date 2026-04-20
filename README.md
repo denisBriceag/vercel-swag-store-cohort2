@@ -12,7 +12,7 @@ This project requires Node.js 24. If you use [nvm](https://github.com/nvm-sh/nvm
 nvm use
 ```
 
-Otherwise install any Node.js 24.x release manually.
+Otherwise, install any Node.js 24.x release manually.
 
 ### 2. Install dependencies
 
@@ -20,7 +20,18 @@ Otherwise install any Node.js 24.x release manually.
 pnpm install
 ```
 
-### 3. Start the dev server
+### 3. Set up environment variables
+
+Environment variables are managed through Vercel. Make sure you have the [Vercel CLI](https://vercel.com/docs/cli) installed, then:
+
+```bash
+vercel link --project vercel-swag-store-cohort2 --team team_7FKF8jBuiFFh9vZ3q0pDUgvs --yes
+vercel env pull
+```
+
+`vercel link` connects your local repo to the Vercel project. `vercel env pull` pulls all variables into `.env.local`.
+
+### 4. Start the dev server
 
 ```bash
 pnpm dev
