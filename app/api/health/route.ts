@@ -4,13 +4,10 @@ import { checkHealth } from "@/lib/data/app-health.api"
 
 export async function GET() {
   try {
-    const { data } = await checkHealth()
+    await checkHealth()
 
-    return NextResponse.json(data)
-  } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Health check failed"
-
-    return NextResponse.json({ status: "error", message }, { status: 503 })
+    return NextResponse.json({ status: "ok", timestamp: new Date().toISOString() })
+  } catch {
+    return NextResponse.json({ status: "error" }, { status: 503 })
   }
 }

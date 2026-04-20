@@ -10,6 +10,11 @@ import {
   clearCart,
 } from "@/lib/data/cart.api"
 import { getCartToken } from "@/lib/cart/cart-token"
+import {
+  AddToCartSchema,
+  CartItemIdSchema,
+  UpdateCartItemSchema,
+} from "@/lib/validations/cart"
 
 import { BaseResponse } from "@/types/response"
 import { ApiHttpError } from "@/types/server-error"
@@ -18,6 +23,8 @@ import { cartCacheTag } from "@/constants/app-constants"
 
 /**
  * All the cart server actions are specifically designed to handle the action failure because of invalid cart token stored inside server cookies.
+ *
+ * We use updateTag strategy rathen than React context api here. The visible trade-off - we don't have optimistic UI, and we are totally dependent on api speed
  * */
 
 type ActionType = BaseResponse & { error?: string; sessionExpired?: boolean }
@@ -40,6 +47,15 @@ export async function addToCartAction(
   productId: string,
   quantity: number
 ): Promise<ActionType> {
+  const validation = AddToCartSchema.safeParse({ productId, quantity })
+
+  if (!validation.success) {
+    return {
+      success: false,
+      error: validation.error.issues[0]?.message ?? "Invalid input",
+    }
+  }
+
   try {
     const token = await getCartToken()
 
@@ -83,6 +99,15 @@ export async function updateQuantityAction(
   productId: string,
   quantity: number
 ): Promise<ActionType> {
+  const validation = UpdateCartItemSchema.safeParse({ productId, quantity })
+
+  if (!validation.success) {
+    return {
+      success: false,
+      error: validation.error.issues[0]?.message ?? "Invalid input",
+    }
+  }
+
   try {
     await updateQuantity(productId, quantity)
 
@@ -110,6 +135,15 @@ export async function updateQuantityAction(
 export async function removeFromCartAction(
   productId: string
 ): Promise<ActionType> {
+  const validation = CartItemIdSchema.safeParse(productId)
+
+  if (!validation.success) {
+    return {
+      success: false,
+      error: validation.error.issues[0]?.message ?? "Invalid input",
+    }
+  }
+
   try {
     await removeFromCart(productId)
 

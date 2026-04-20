@@ -1,14 +1,24 @@
 import { revalidateTag } from "next/cache"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
 import { CACHE_TAGS } from "@/constants/app-constants"
 
-export async function POST() {
-  const tags = Object.values(CACHE_TAGS)
+import { isAuthorizedRevalidateRequest } from "@/lib/revalidate-auth"
 
-  for (const tag of tags) {
-    revalidateTag(tag, "max")
+export async function POST(req: NextRequest) {
+  if (!isAuthorizedRevalidateRequest(req)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
-  return NextResponse.json({ revalidated: true, tags })
+  try {
+    const tags = Object.values(CACHE_TAGS)
+
+    for (const tag of tags) {
+      revalidateTag(tag, "max")
+    }
+
+    return NextResponse.json({ revalidated: true, tags })
+  } catch {
+    return NextResponse.json({ error: "Revalidation failed" }, { status: 500 })
+  }
 }

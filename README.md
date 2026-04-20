@@ -1,20 +1,29 @@
 # Vercel Swag Store
 
-This is a Next.js application submitted for Cohort 2 of the Vercel Solution Partner Certification Program.
+A Next.js e-commerce application submitted for Cohort 2 of the Vercel Solution Partner Certification Program.
 
-## How to start the project
+## Running locally
 
-To start the project locally you will need node version 24.x.x and pnpm package manager with a version indicated in package.json file.
+### 1. Node.js version
 
-If you are using nvm, you can try to run:
+This project requires Node.js 24. If you use [nvm](https://github.com/nvm-sh/nvm), the correct version is pinned in `.nvmrc`:
+
 ```bash
 nvm use
 ```
-and install it via nvm if you prefer.
 
-Otherwise, just install the node version indicated in .nvmrc file, or use any node 24.x.x if you have one already preinstalled.
+Otherwise install any Node.js 24.x release manually.
 
-After installing/configuring the right node version, just run the following command to start the project locally:
+### 2. Install dependencies
+
+```bash
+pnpm install
+```
+
+### 3. Start the dev server
+
 ```bash
 pnpm dev
 ```
+
+The app will be available at [http://localhost:3000](http://localhost:3000).

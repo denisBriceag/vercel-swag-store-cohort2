@@ -5,6 +5,7 @@ import "../styles/globals.css"
 
 import Header from "@/components/header/header"
 import Footer from "@/components/home/footer"
+import PreviewBanner from "@/components/preview-banner"
 import { Toaster } from "@/components/ui/sonner"
 
 import { getAppConfig } from "@/lib/data/app-configuration.api"
@@ -70,6 +71,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${fontSans.variable} antialiased`}>
       <body>
+        <PreviewBanner />
         <Header />
 
         <main className="mt-(--header-height) min-h-screen">{children}</main>
