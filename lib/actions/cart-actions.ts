@@ -24,7 +24,12 @@ import { cartCacheTag } from "@/constants/app-constants"
 /**
  * All the cart server actions are specifically designed to handle the action failure because of invalid cart token stored inside server cookies.
  *
- * We use updateTag strategy rathen than React context api here. The visible trade-off - we don't have optimistic UI, and we are totally dependent on api speed
+ * We use updateTag (push-based) rather than revalidateTag (pull-based) or React context here.
+ * updateTag immediately triggers a background re-render of every page that includes the cart cache tag,
+ * which is every route since CartCount lives in the root layout. This keeps the cart count consistent
+ * for the user without waiting for them to navigate, but at the cost of background GET requests to all
+ * routes after each mutation. The visible trade-offs: no optimistic UI, and the cart count update is
+ * dependent on API response time.
  * */
 
 type ActionType = BaseResponse & { error?: string; sessionExpired?: boolean }

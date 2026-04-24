@@ -1,6 +1,6 @@
 export default function PageLoading() {
   return (
-    <article className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+    <article className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="h-8 w-48 animate-pulse rounded-md bg-muted" />
 
       <div className="mt-8 space-y-4">
