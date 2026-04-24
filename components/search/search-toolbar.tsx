@@ -5,11 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { Loader2, Search } from "lucide-react"
 import { VisuallyHidden } from "radix-ui"
 
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group"
+import { Button } from "@/components/ui/button"
 import {
   Select,
   SelectContent,
@@ -24,6 +20,7 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 
@@ -37,8 +34,6 @@ import {
   SEARCH_DEBOUNCE_MS,
 } from "@/constants/search-constants"
 import { buildUpdatedSearchParams } from "@/utils/search/build-updated-search-params"
-
-import { cn } from "@/utils/utils"
 
 type SearchToolbarProps = {
   categories: Category[]
@@ -80,6 +75,8 @@ export default function SearchToolbar({
 
     const timeoutId = setTimeout(() => {
       if (trimmed.length >= MIN_SEARCH_LENGTH) {
+        if (trimmed === (initialQuery.search ?? "")) return
+
         navigateWithParams({
           page: DEFAULT_PAGE,
           limit: initialQuery.limit ?? DEFAULT_LIMIT,
@@ -147,7 +144,10 @@ export default function SearchToolbar({
 
           <Field className="w-full md:w-fit">
             <Select value={categoryValue} onValueChange={handleCategoryChange}>
-              <SelectTrigger className="w-full md:max-w-56" aria-label="Filter by category">
+              <SelectTrigger
+                className="w-full md:max-w-56"
+                aria-label="Filter by category"
+              >
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
 
@@ -175,44 +175,39 @@ export default function SearchToolbar({
             )}
           </Field>
 
-          <Field className="w-full md:w-fit">
+          <Field orientation="horizontal" className="w-full md:w-fit">
             <VisuallyHidden.VisuallyHidden>
               <FieldLabel htmlFor="search-input">
                 Search for products
               </FieldLabel>
             </VisuallyHidden.VisuallyHidden>
 
-            <InputGroup className="w-full md:min-w-96">
-              <InputGroupInput
-                id="search-input"
-                placeholder="Search products..."
-                value={searchValue}
-                onChange={(event) => setSearchValue(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") {
-                    event.preventDefault()
-                    handleManualSearch()
-                  }
-                }}
-              />
+            <Input
+              id="search-input"
+              type="search"
+              placeholder="Search products..."
+              value={searchValue}
+              onChange={(event) => setSearchValue(event.target.value)}
+              className="w-full md:min-w-96"
+            />
 
-              <InputGroupAddon
-                role="button"
-                aria-label="Search"
-                align="inline-end"
-                className={cn(
-                  !searchValue && "pointer-events-none",
-                  "cursor-pointer"
-                )}
-                onClick={handleManualSearch}
-              >
-                {isPending ? (
-                  <Loader2 className="size-4 animate-spin" />
-                ) : (
-                  <Search className="size-4" />
-                )}
-              </InputGroupAddon>
-            </InputGroup>
+            <Button
+              type="submit"
+              variant="outline"
+              size="icon"
+              aria-label="Search"
+              disabled={
+                isPending ||
+                !searchValue.trim() ||
+                searchValue.trim() === (initialQuery.search ?? "")
+              }
+            >
+              {isPending ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <Search className="size-4" />
+              )}
+            </Button>
           </Field>
         </FieldGroup>
       </form>

@@ -3,7 +3,7 @@ import { ERROR_CODE } from "@/types/error-code"
 export type ServerError = {
   message: string
   code: keyof typeof ERROR_CODE
-  details?: string
+  details?: string | Record<string, string | string[]> | null
 }
 
 export class ApiTimeoutError extends Error {

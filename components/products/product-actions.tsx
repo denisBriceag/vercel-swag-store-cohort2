@@ -44,6 +44,8 @@ export default function ProductActions({
 
       if (result.sessionExpired) {
         toast.warning("Cart session expired. A new cart was created for you.")
+      } else if (!result.success) {
+        toast.error(result.error ?? "Failed to add item to cart.")
       }
     })
   }

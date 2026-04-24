@@ -17,6 +17,7 @@ const fontSans = Geist({
   weight: ["400", "500", "600"],
   subsets: ["latin"],
   variable: "--font-sans",
+  adjustFontFallback: true,
 })
 
 export async function generateMetadata(): Promise<Metadata> {

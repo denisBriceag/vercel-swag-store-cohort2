@@ -4,19 +4,20 @@ import EmptyState from "@/components/ui/empty-state"
 import useError from "@/hooks/use-error"
 
 export default function ProductError({
+  error,
   reset,
 }: {
-  error: Error
+  error: Error & { digest?: string }
   reset: () => void
 }) {
   const reload = useError(reset)
 
   return (
-    <section className="flex min-h-[60vh] flex-col items-center justify-center gap-4 p-6 text-center">
+    <section className="flex flex-col items-center justify-center gap-4 p-6 text-center">
       <EmptyState
         title="Something went wrong. Failed to load product"
-        description="We couldn&#39;t load this product. Please try again or browse other
-        products."
+        errorCode={error.digest}
+        description="We couldn't load this product. Please try again or browse other products."
       >
         <button
           onClick={reload}

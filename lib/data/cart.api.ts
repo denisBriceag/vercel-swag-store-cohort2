@@ -48,7 +48,8 @@ export async function getCart(): Promise<CartWithProducts | null> {
     if (error instanceof ApiHttpError && error.status === 404) {
       return null
     }
-    return null
+
+    throw error
   }
 }
 

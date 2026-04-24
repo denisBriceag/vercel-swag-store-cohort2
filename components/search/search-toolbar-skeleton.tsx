@@ -9,8 +9,9 @@ export default function SearchToolbarSkeleton() {
 
         <div className="h-9 w-full animate-pulse rounded-md bg-muted md:max-w-56" />
 
-        <div className="flex w-full flex-col gap-1.5 md:w-fit">
-          <div className="h-9 w-full animate-pulse rounded-md bg-muted md:min-w-96" />
+        <div className="flex w-full items-center gap-3 md:w-fit">
+          <div className="h-9 w-full animate-pulse rounded-4xl bg-muted md:min-w-96" />
+          <div className="size-9 shrink-0 animate-pulse rounded-4xl bg-muted" />
         </div>
       </div>
     </div>

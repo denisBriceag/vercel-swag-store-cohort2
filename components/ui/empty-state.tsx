@@ -6,6 +6,7 @@ import { cn } from "@/utils/utils"
 interface EmptyStateProps {
   title: string
   description?: string
+  errorCode?: string | number
   actionHref?: string
   actionLabel?: string
   className?: string
@@ -15,6 +16,7 @@ interface EmptyStateProps {
 export default function EmptyState({
   title,
   description,
+  errorCode,
   actionHref,
   actionLabel,
   className,
@@ -33,6 +35,12 @@ export default function EmptyState({
       )}
 
       <div className="flex flex-col items-center gap-1.5">
+        {errorCode && (
+          <span className="text-sm font-medium text-muted-foreground tabular-nums">
+            Error {errorCode}
+          </span>
+        )}
+
         <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
 
         {description && (

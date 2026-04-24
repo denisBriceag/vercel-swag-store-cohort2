@@ -3,13 +3,20 @@
 import EmptyState from "@/components/ui/empty-state"
 import useError from "@/hooks/use-error"
 
-export default function Error({ reset }: { error: Error; reset: () => void }) {
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
   const reload = useError(reset)
 
   return (
-    <section className="flex min-h-[60vh] flex-col items-center justify-center gap-4 p-6 text-center">
+    <section className="flex min-h-[calc(100vh-var(--header-height))] flex-col items-center justify-center gap-4 p-6 text-center">
       <EmptyState
         title="Something went wrong."
+        errorCode={error.digest}
         description="An unexpected error occurred. Please try again."
       >
         <button

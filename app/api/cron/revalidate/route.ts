@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { CACHE_TAGS } from "@/constants/app-constants"
 
 /**
- * @description We verify CRON_SECRET using timingSafeEqual so that only Vercel's infrastructure
+ * @description We specifically use CRON_SECRET so that only Vercel's infrastructure
  * can trigger a full cache flush, not an arbitrary HTTP client.
  */
 export async function GET(req: NextRequest) {

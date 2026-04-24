@@ -56,6 +56,12 @@ export async function generateMetadata({
         images: [{ url: images[0], alt: name }],
       }),
     },
+    twitter: {
+      card: "summary_large_image",
+      title: name,
+      description,
+      ...(images[0] && { images: [images[0]] }),
+    },
     alternates: {
       canonical: process.env.NEXT_PUBLIC_APP_URL
         ? `${process.env.NEXT_PUBLIC_APP_URL}/products/${slug}`
@@ -108,7 +114,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-muted">
             {product.images[0] ? (
@@ -164,7 +170,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             )}
           </div>
         </div>
-      </div>
+      </section>
     </>
   )
 }

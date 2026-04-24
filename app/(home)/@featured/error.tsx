@@ -4,13 +4,20 @@ import EmptyState from "@/components/ui/empty-state"
 
 import useError from "@/hooks/use-error"
 
-export default function Error({ reset }: { error: Error; reset: () => void }) {
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
   const reload = useError(reset)
 
   return (
-    <section className="flex h-120 w-full items-center justify-center px-4 py-16 sm:px-6 lg:px-8">
+    <div className="flex h-120 items-center justify-center">
       <EmptyState
         title="Featured products unavailable"
+        errorCode={error.digest}
         description="Something went wrong while loading our featured products."
       >
         <button
@@ -20,6 +27,6 @@ export default function Error({ reset }: { error: Error; reset: () => void }) {
           Try again
         </button>
       </EmptyState>
-    </section>
+    </div>
   )
 }

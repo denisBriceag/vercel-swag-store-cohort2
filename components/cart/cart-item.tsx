@@ -40,6 +40,8 @@ export default function CartItem({ item }: CartItemProps) {
   useEffect(() => {
     if (removeState.sessionExpired) {
       toast.warning("Your cart session has expired.")
+    } else if (!removeState.success && removeState.error) {
+      toast.error(removeState.error)
     }
   }, [removeState])
 
@@ -55,6 +57,8 @@ export default function CartItem({ item }: CartItemProps) {
 
       if (result.sessionExpired) {
         toast.warning("Your cart session has expired.")
+      } else if (!result.success) {
+        toast.error(result.error ?? "Failed to update quantity.")
       }
     })
   }

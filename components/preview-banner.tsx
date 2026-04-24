@@ -1,4 +1,4 @@
-/*
+/**
  * @description We use this component for deployment preview only.
  */
 export default function PreviewBanner() {

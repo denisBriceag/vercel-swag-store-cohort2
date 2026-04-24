@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+
 import { ArrowRight } from "lucide-react"
 
 export default function Hero() {
@@ -10,7 +11,7 @@ export default function Hero() {
           src="/hero-image.jpg"
           alt="Wear the framework you ship with."
           fill
-          priority
+          preload
           sizes="100vw"
           className="object-cover"
         />
