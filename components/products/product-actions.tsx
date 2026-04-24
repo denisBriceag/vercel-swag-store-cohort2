@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useTransition } from "react"
+import { useEffect, useState, useTransition } from "react"
 
 import { Loader2, Minus, Plus, ShoppingCart } from "lucide-react"
 import { toast } from "sonner"
@@ -30,6 +30,12 @@ export default function ProductActions({
   const [quantity, setQuantity] = useState(1)
   const [isPending, startTransition] = useTransition()
 
+  useEffect(() => {
+    const setQty = () => setQuantity((q) => Math.min(q, maxQty))
+
+    setQty()
+  }, [maxQty])
+
   function increment() {
     setQuantity((q) => Math.min(q + 1, maxQty))
   }
@@ -46,7 +52,10 @@ export default function ProductActions({
         toast.warning("Cart session expired. A new cart was created for you.")
       } else if (!result.success) {
         toast.error(result.error ?? "Failed to add item to cart.")
+        return
       }
+
+      setQuantity(1)
     })
   }
 

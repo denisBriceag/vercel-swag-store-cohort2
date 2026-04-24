@@ -124,7 +124,18 @@ export default function SearchToolbar({
   }
 
   return (
-    <search className="p-6">
+    <search className="relative p-6">
+      {isPending && (
+        <div
+          role="progressbar"
+          aria-label="Loading search results"
+          aria-busy="true"
+          className="absolute right-0 bottom-0 left-0 h-0.5 overflow-hidden"
+        >
+          <div className="animate-indeterminate absolute h-full w-1/4 rounded-full bg-primary" />
+        </div>
+      )}
+
       <form
         className="w-full"
         onSubmit={(event) => {

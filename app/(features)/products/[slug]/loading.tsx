@@ -2,7 +2,7 @@ import ProductStockSkeleton from "@/components/products/product-stock-skeleton"
 
 export default function ProductPageLoading() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
         <div className="aspect-square animate-pulse rounded-2xl border border-border bg-muted" />
 
